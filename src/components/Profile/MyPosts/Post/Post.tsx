@@ -6,7 +6,7 @@ type PostTypeProps = {
     likeCounts: number
 }
 const Post = (props:PostTypeProps) => {
-    return <div className={s.item}>
+    return <div className={s.dialog}>
         <img src="https://dlyarostavolos.com/wp-content/uploads/2018/11/ryzhue-volosy-5.jpg" alt="Pepega"/>
         {props.message}
         <div>

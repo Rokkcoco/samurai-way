@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Music = () => {
+const Music = ():JSX.Element => {
     return (
         <div>
             Music

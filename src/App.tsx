@@ -10,7 +10,7 @@ import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 
 
-function App() {
+function App():JSX.Element {
     return (
         <BrowserRouter>
             <div className='app-wrapper'>

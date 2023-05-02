@@ -1,6 +1,6 @@
 import React from 'react';
 
-const News = () => {
+const News = ():JSX.Element => {
     return (
         <div>
             News
