@@ -4,27 +4,29 @@ import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
 import Dialogs from "./components/Dialogs/Dialogs";
-import {BrowserRouter, Route} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
+import {Route, Routes} from "react-router-dom";
 
 
-function App():JSX.Element {
+function App(): JSX.Element {
     return (
-        <BrowserRouter>
-            <div className='app-wrapper'>
-                <Header/>
-                <Navbar/>
-                <div className="app-wrapper-content">
-                    <Route path='/dialogs' component={Dialogs}/>
-                    <Route path='/profile' component={Profile}/>
-                    <Route path='/news' component={News}/>
-                    <Route path='/music' component={Music}/>
-                    <Route path='/settings' component={Settings}/>
-                </div>
+        <div className='app-wrapper'>
+            <Header/>
+            <Navbar/>
+            <div className="app-wrapper-content">
+                <Routes>
+                    <Route path='/dialogs/*' element={<Dialogs/>}/>
+                    <Route path='/profile' element={<Profile/>}/>
+                    <Route path='/news' element={<News/>}/>
+                    <Route path='/music' element={<Music/>}/>
+                    <Route path='/settings' element={<Settings/>}/>
+                </Routes>
             </div>
-        </BrowserRouter>)
+        </div>
+
+    )
 }
 
 export default App;

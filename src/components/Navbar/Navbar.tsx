@@ -3,23 +3,25 @@ import s from "./Navbar.module.css"
 import {NavLink} from "react-router-dom";
 
 
-const Navbar = () => {
+
+const Navbar = ():JSX.Element => {
     return (
+
         <nav className={s.nav}>
-            <div className={s.item}>
-                <NavLink to="/profile" activeClassName={s.active}>Profile</NavLink>
+            <div>
+                <NavLink to="/profile" className={t => t.isActive ? s.active : s.item}>Profile</NavLink>
             </div>
-            <div className={`${s.item} ${s.active}`}>
-                <NavLink to="/dialogs" activeClassName={s.active}>Messages</NavLink>
+            <div>
+                <NavLink to="/dialogs" className={t => t.isActive ? s.active : s.item}>Messages</NavLink>
             </div>
-            <div className={s.item}>
-                <NavLink to="/news" activeClassName={s.active}>News</NavLink>
+            <div >
+                <NavLink to="/news" className={t => t.isActive ? s.active : s.item}>News</NavLink>
             </div>
-            <div className={s.item}>
-                <NavLink to="/music" activeClassName={s.active}>Music</NavLink>
+            <div>
+                <NavLink to="/music" className={t => t.isActive ? s.active : s.item}>Music</NavLink>
             </div>
-            <div className={s.item}>
-                <NavLink to="/settings" activeClassName={s.active}>Settings</NavLink>
+            <div>
+                <NavLink to="/settings" className={t => t.isActive ? s.active : s.item}>Settings</NavLink>
             </div>
         </nav>
     )
