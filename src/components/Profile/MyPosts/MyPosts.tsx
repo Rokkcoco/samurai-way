@@ -7,18 +7,21 @@ import {PostsDataType} from "../../../redux/state";
 
 type MyPostsType = {
     postsData: PostsDataType[]
+    addPost: (postMessage:string)=>void
 }
 
-const MyPosts: FC<MyPostsType> = ({postsData}): JSX.Element => {
+const MyPosts: FC<MyPostsType> = ({postsData,addPost}): JSX.Element => {
 
+    const postsElements: JSX.Element[] = postsData.map((t, index) => <Post key={index} message={t.message} likeCounts={t.likesCount} id={t.id}/>)
 
-    let postsElements: JSX.Element[] = postsData.map((t, index) => <Post key={index} message={t.message} likeCounts={t.likesCount} id={t.id}/>)
+    const newPostElement = createRef<HTMLTextAreaElement>()
 
-    let newPostElement = createRef<HTMLTextAreaElement>()
-
-    let addPost = () => {
-        let text = newPostElement.current?.value;
-        alert(text)
+    const newPostHandler = () => {
+        if (newPostElement.current) {
+            addPost(newPostElement.current.value)
+            console.log(postsData)
+            newPostElement.current.value = ''
+        }
     }
 
     return <div className={s.postsBlock}>
@@ -27,7 +30,7 @@ const MyPosts: FC<MyPostsType> = ({postsData}): JSX.Element => {
             <textarea ref={newPostElement}></textarea>
         </div>
         <div>
-            <button onClick={addPost}>Add post</button>
+            <button onClick={newPostHandler}>Add post</button>
         </div>
         <div className={s.posts}>
             {postsElements}
