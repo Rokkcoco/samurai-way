@@ -8,22 +8,23 @@ import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import {Route, Routes} from "react-router-dom";
-import {StateType} from "./redux/state";
+import {StateType, updateNewPostText} from "./redux/state";
 
 
 type AppType ={
     state: StateType
-    addPost: (postMessage:string)=>void
+    addPost: ()=>void
+    updateNewPostText: (newText:string)=>void
 }
 
-const App:FC<AppType> = ({state, addPost}):JSX.Element => (
+const App:FC<AppType> = ({state, addPost, updateNewPostText}):JSX.Element => (
     <div className='app-wrapper'>
         <Header/>
         <Navbar/>
         <div className="app-wrapper-content">
             <Routes>
-                <Route path='/dialogs/*' element={<Dialogs state={state.messagesPage}/>}/>
-                <Route path='/profile' element={<Profile state={state.profilePage} addPost={addPost}/>}/>
+                <Route path='/dialogs/*' element={<Dialogs messagesPage={state.messagesPage}/>}/>
+                <Route path='/profile' element={<Profile profilePage={state.profilePage} newPostTextData={state.profilePage.newPostTextData} addPost={addPost} updateNewPostText={updateNewPostText}/>}/>
                 <Route path='/news' element={<News/>}/>
                 <Route path='/music' element={<Music/>}/>
                 <Route path='/settings' element={<Settings/>}/>
