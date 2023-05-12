@@ -1,7 +1,7 @@
 import React, {createRef, FC} from 'react';
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {PostsDataType, updateNewPostText} from "../../../redux/state";
+import {PostsDataType} from "../../../redux/state";
 
 
 
@@ -12,13 +12,13 @@ type MyPostsType = {
     updateNewPostText: (newText:string)=>void
 }
 
-const MyPosts: FC<MyPostsType> = ({postsData,addPost, newPostTextData}): JSX.Element => {
+const MyPosts: FC<MyPostsType> = ({postsData,addPost, newPostTextData, updateNewPostText}): JSX.Element => {
 
     const postsElements: JSX.Element[] = postsData.map((t, index) => <Post key={index} message={t.message} likeCounts={t.likesCount} id={t.id}/>)
 
     const newPostElement = createRef<HTMLTextAreaElement>()
 
-    const newPostHandler = () => {
+    const onClickNewPostHandler = () => {
             addPost()
     }
 
@@ -34,7 +34,7 @@ const MyPosts: FC<MyPostsType> = ({postsData,addPost, newPostTextData}): JSX.Ele
             <textarea ref={newPostElement} value={newPostTextData} onChange={onChangePostHandler}/>
         </div>
         <div>
-            <button onClick={newPostHandler}>Add post</button>
+            <button onClick={onClickNewPostHandler}>Add post</button>
         </div>
         <div className={s.posts}>
             {postsElements}
