@@ -13,18 +13,17 @@ import {StateType} from "./redux/state";
 
 type AppType ={
     state: StateType
-    addPost: ()=>void
-    updateNewPostText: (newText:string)=>void
+    dispatch: (action:any)=>void
 }
 
-const App:FC<AppType> = ({state, addPost, updateNewPostText}):JSX.Element => (
+const App:FC<AppType> = ({state, dispatch}):JSX.Element => (
     <div className='app-wrapper'>
         <Header/>
         <Navbar/>
         <div className="app-wrapper-content">
             <Routes>
                 <Route path='/dialogs/*' element={<Dialogs messagesPage={state.messagesPage}/>}/>
-                <Route path='/profile' element={<Profile profilePage={state.profilePage} newPostTextData={state.profilePage.newPostTextData} addPost={addPost} updateNewPostText={updateNewPostText}/>}/>
+                <Route path='/profile' element={<Profile profilePage={state.profilePage} newPostTextData={state.profilePage.newPostTextData} dispatch={dispatch}/>}/>
                 <Route path='/news' element={<News/>}/>
                 <Route path='/music' element={<Music/>}/>
                 <Route path='/settings' element={<Settings/>}/>

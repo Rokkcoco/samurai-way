@@ -12,11 +12,17 @@ const root = ReactDOM.createRoot(
 export const rerenderEntireTree = (state:StateType) => {
     root.render(
         <BrowserRouter>
-            <App state={state} addPost={store.addPost.bind(store)} updateNewPostText={store.updateNewPostText.bind(store)}/>
+            <App state={state} dispatch={store.dispatch.bind(store)}/>
         </BrowserRouter>
     );
 }
 
+
 rerenderEntireTree(store.getState())
+
+
+
+
+
 
 store.subscribe(rerenderEntireTree)
