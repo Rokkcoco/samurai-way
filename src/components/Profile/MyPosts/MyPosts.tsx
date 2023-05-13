@@ -1,14 +1,14 @@
 import React, {createRef, FC} from 'react';
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {ProfilePageType} from "../../../redux/state";
-
+import {addPostActionCreator, ProfilePageType, updateNewPostTextActionCreator} from "../../../redux/state";
 
 type MyPostsType = {
     dispatch:(action:any)=>void
     profilePage: ProfilePageType
     newPostTextData:string
 }
+
 
 const MyPosts: FC<MyPostsType> = ({profilePage, dispatch, newPostTextData}): JSX.Element => {
 
@@ -17,15 +17,13 @@ const MyPosts: FC<MyPostsType> = ({profilePage, dispatch, newPostTextData}): JSX
     const newPostElement = createRef<HTMLTextAreaElement>()
 
     const onClickNewPostHandler = () => {
-            dispatch({type: "ADD-POST"})
-        //addpost
+            dispatch(addPostActionCreator())
     }
 
     const onChangePostHandler = () => {
         if (newPostElement.current) {
             const text = newPostElement.current.value
-            const action = {type: "UPDATE-NEW-POST-TEXT", newText: text};
-            dispatch(action)
+            dispatch(updateNewPostTextActionCreator(text))
         }
     }
 
