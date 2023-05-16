@@ -16,7 +16,7 @@ const Dialogs: FC<DialogsType> = ({dialogsPage, dispatch}): JSX.Element => {
     const messagesElements: JSX.Element[] = dialogsPage.messages.map((t, index) => <Message key={index} message={t.message} id={t.id}/>)
 
     const onSendMessageClick = () => {
-        debugger
+
         dispatch(sendMessageCreator())
     }
 
