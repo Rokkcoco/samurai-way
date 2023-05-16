@@ -7,14 +7,14 @@ import {ProfilePageType} from "../../redux/state";
 type ProfileType = {
    profilePage: ProfilePageType
     dispatch: (action:any)=>void
-    newPostTextData: string
+    newPostText: string
 }
 
-const Profile:FC<ProfileType> = ({profilePage, dispatch, newPostTextData}): JSX.Element => {
+const Profile:FC<ProfileType> = ({profilePage, dispatch, newPostText}): JSX.Element => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts profilePage={profilePage}  dispatch={dispatch} newPostTextData={newPostTextData}/>
+            <MyPosts profilePage={profilePage}  dispatch={dispatch} newPostText={newPostText}/>
         </div>
     )
 }

@@ -22,8 +22,8 @@ const App:FC<AppType> = ({state, dispatch}):JSX.Element => (
         <Navbar/>
         <div className="app-wrapper-content">
             <Routes>
-                <Route path='/dialogs/*' element={<Dialogs messagesPage={state.messagesPage}/>}/>
-                <Route path='/profile' element={<Profile profilePage={state.profilePage} newPostTextData={state.profilePage.newPostTextData} dispatch={dispatch}/>}/>
+                <Route path='/dialogs/*' element={<Dialogs dialogsPage={state.dialogsPage} dispatch={dispatch}/>}/>
+                <Route path='/profile' element={<Profile profilePage={state.profilePage} newPostText={state.profilePage.newPostText} dispatch={dispatch}/>}/>
                 <Route path='/news' element={<News/>}/>
                 <Route path='/music' element={<Music/>}/>
                 <Route path='/settings' element={<Settings/>}/>
