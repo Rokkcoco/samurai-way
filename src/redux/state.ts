@@ -37,10 +37,7 @@ export type StoreType = {
     dispatch: (action: any) => void
 }
 
-const ADD_POST = "ADD-POST"
-const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT"
-const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY"
-const SEND_MESSAGE = "SEND-MESSAGE"
+
 export const store: StoreType = {
     _state: {
         profilePage: {
@@ -99,9 +96,5 @@ declare global {
     }
 }
 
-export const addPostActionCreator = () => ({type: ADD_POST})
-export const updateNewPostTextActionCreator = (text: string) =>
-    ({type: UPDATE_NEW_POST_TEXT, newText: text})
-export const sendMessageCreator = () => ({type: SEND_MESSAGE})
-export const updateNewMessageBody = (body: string) =>
-    ({type: UPDATE_NEW_MESSAGE_BODY, body: body})
+
+

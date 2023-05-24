@@ -19,4 +19,7 @@ const dialogsReducer = (state: MessagesPageType, action: any) => {
     }
 }
 
+export const sendMessageCreator = () => ({type: SEND_MESSAGE})
+export const updateNewMessageBody = (body: string) =>
+    ({type: UPDATE_NEW_MESSAGE_BODY, body: body})
 export default dialogsReducer
