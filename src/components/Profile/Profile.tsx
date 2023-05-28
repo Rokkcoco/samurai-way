@@ -4,15 +4,15 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
 
-type ProfileType = {
-    store: any
-}
+// type ProfileType = {
+//     store: any
+// }
 
-const Profile:FC<ProfileType> = ({store}): JSX.Element => {
+const Profile:FC = (): JSX.Element => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPostsContainer store={store} />
+            <MyPostsContainer/>
         </div>
     )
 }
