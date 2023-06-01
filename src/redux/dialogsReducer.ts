@@ -1,4 +1,4 @@
-import {MessagesPageType} from "./store";
+
 
 const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY"
 const SEND_MESSAGE = "SEND-MESSAGE"
@@ -25,13 +25,12 @@ const initialState = {
 const dialogsReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case UPDATE_NEW_MESSAGE_BODY:
-            state.newMessageBody = action.body
-            return state
+            return {...state, newMessageBody: action.body}
         case SEND_MESSAGE:
             let body = state.newMessageBody
             state.newMessageBody = ""
             state.messages.push({id: Date.now(), message: body})
-            return state
+            return {...state, messages: [...state.messages, {id: Date.now(), message: body}]}
         default:
             return state
     }

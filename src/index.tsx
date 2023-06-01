@@ -10,27 +10,19 @@ import {Provider} from "react-redux";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
-);
-
-export const rerenderEntireTree = () => {
-    root.render(
+)
+root.render(
         <BrowserRouter>
             <Provider store={store}>
             <App />
             </Provider>
         </BrowserRouter>
-    );
-}
-
-
-rerenderEntireTree()
+    )
 
 
 
 
 
 
-store.subscribe(() => {
-    rerenderEntireTree()
-    // rerenderEntireTree(store.getState())
-})
+
+
