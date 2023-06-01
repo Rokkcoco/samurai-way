@@ -1,4 +1,4 @@
-import {PostsDataType, ProfilePageType} from "./store";
+import {PostsDataType} from "./store";
 
 const ADD_POST = "ADD-POST"
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT"
@@ -22,9 +22,7 @@ const profileReducer = (state = initialState, action: any) => {
                 message: state.newPostText,
                 likesCount: 0
             }
-            const stateCopy = {...state, posts: [...state.posts, newPost]}
-            stateCopy.newPostText = ''
-            return stateCopy
+            return {...state, newPostText: "", posts: [...state.posts, newPost]}
         }
         case UPDATE_NEW_POST_TEXT:
             return {...state, newPostText: action.newText}

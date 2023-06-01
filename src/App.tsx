@@ -9,11 +9,6 @@ import Settings from "./components/Settings/Settings";
 import {Route, Routes} from "react-router-dom";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
-//
-// type AppType ={
-//     store: any
-//     dispatch:(action:any)=>any
-// }
 
 const App:FC= ():JSX.Element => (
     <div className='app-wrapper'>

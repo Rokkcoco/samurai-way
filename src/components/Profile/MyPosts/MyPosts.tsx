@@ -26,8 +26,7 @@ const MyPosts: FC<MyPostsType> = ({updateNewPostText, addPost, newPostText, post
 
     const onPostChange = () => {
         if (newPostElement.current) {
-            const text = newPostElement.current.value
-            updateNewPostText(text)
+            updateNewPostText(newPostElement.current.value)
         }
     }
 
