@@ -1,9 +1,10 @@
 import {connect} from "react-redux";
 import {Users} from "./Users";
 import {followAC, setUsersAC, unfollowAC} from "../../redux/usersReducer";
+import {AppStateType} from "../../redux/redux-store";
 
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppStateType) => {
     return {
         users: state.usersPage.users
     }

@@ -1,11 +1,11 @@
-
+import {UsersPropsType} from "../components/Users/Users";
 
 
 const initialState = {
         users: []
     }
 //Можно сделать блочную видимость как в ADD POST {} чтобы переменная оттуда не пересекалась с другой
-const usersReducer = (state = initialState, action: UsersReducersActionType) => {
+const usersReducer = (state:{users:UsersPropsType} = initialState, action: UsersReducersActionType) => {
     switch (action.type) {
         case "FOLLOW":
             return {...state, users: state.users.map(t => t.id === action.userID ? {...t, followed: true} : t)}

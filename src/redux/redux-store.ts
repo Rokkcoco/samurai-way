@@ -6,15 +6,16 @@ import usersReducer from "./usersReducer";
 
 
 
-const reducers = combineReducers({
+const rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
     sidebar: sidebarReducer,
     usersPage: usersReducer
 })
 
+export type AppStateType = ReturnType<typeof rootReducer>
 
-const store = legacy_createStore(reducers)
+const store = legacy_createStore(rootReducer)
 //@ts-ignore
 window.store = store
 export default store;
