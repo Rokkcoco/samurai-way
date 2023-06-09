@@ -1,12 +1,8 @@
 
 
+
 const initialState = {
-        users: [
-            {id: 1, photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmO_Dk5tf21dkiT_2VR3QblcmrWB9dzyV9XQ&usqp=CAU", followed: true, fullName: "Dmitry", status: "I'm a boss", location: {city: "Minsk", country: "Belarus"}},
-            {id: 2, photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmO_Dk5tf21dkiT_2VR3QblcmrWB9dzyV9XQ&usqp=CAU", followed: false, fullName: "Sasha", status: "I'm a boss too", location: {city: "Moscow", country: "Russia"}},
-            {id: 3, photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmO_Dk5tf21dkiT_2VR3QblcmrWB9dzyV9XQ&usqp=CAU", followed: true, fullName: "Valera", status: "No, I'm a boss", location: {city: "Kiev", country: "Ukraine"}},
-            {id: 4, photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmO_Dk5tf21dkiT_2VR3QblcmrWB9dzyV9XQ&usqp=CAU", followed: false, fullName: "Andrew", status: "Nope, I'm a boss", location: {city: "London", country: "UK"}},
-        ]
+        users: []
     }
 //Можно сделать блочную видимость как в ADD POST {} чтобы переменная оттуда не пересекалась с другой
 const usersReducer = (state = initialState, action: UsersReducersActionType) => {
