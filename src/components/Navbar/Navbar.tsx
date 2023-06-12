@@ -14,6 +14,9 @@ const Navbar = ():JSX.Element => {
             <div>
                 <NavLink to="/dialogs" className={t => t.isActive ? s.active : s.item}>Messages</NavLink>
             </div>
+            <div>
+                <NavLink to="/users" className={t => t.isActive ? s.active : s.item}>Users</NavLink>
+            </div>
             <div >
                 <NavLink to="/news" className={t => t.isActive ? s.active : s.item}>News</NavLink>
             </div>
