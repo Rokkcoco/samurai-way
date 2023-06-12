@@ -18,18 +18,17 @@ type UsersType = {
     unfollow: (id: number) => void
     setUsers: (users: UsersPropsType) => void
 }
-
+//если наш констуктор не делает ничего нового кроме как перебрасывания конструктору супер , классу от которого наследуемся, то конструктор можно не писать
 export class Users extends React.Component {
-    constructor(props) {
-        super(props);
-            axios.get<any, any>("https://social-network.samuraijs.com/api/1.0").then(response => {
-                console.log(response)
-                debugger
-                this.props.setUsers(response.data.items)
-            })
+    componentDidMount():void {
+        axios.get<any, any>("https://social-network.samuraijs.com/api/1.0").then(response => {
+            console.log(response)
+            debugger
+            this.props.setUsers(response.data.items)
+        })
     }
 
-    render() {
+    render():JSX.Element {
         return <div>
                 {this.props.users.map(t => <div key={t.id}>
                 <span>
