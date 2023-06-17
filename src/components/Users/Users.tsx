@@ -14,7 +14,7 @@ type UsersType = UsersReducerStateType & {
 }
 
 //если наш констуктор не делает ничего нового кроме как перебрасывания конструктору супер , классу от которого наследуемся, то конструктор можно не писать
-export class Users extends React.Component<UsersType> {
+export class UsersAPIComponent extends React.Component<UsersType> {
     componentDidMount(): void {
         axios.get<any, any>(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(response => {
                 console.log(response)
