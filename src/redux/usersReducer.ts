@@ -5,16 +5,16 @@ export type UsersPropsType = {
     fullName: string,
     status: string,
     location: { city: string, country: string }
-}[]
+}
 
 export type UsersReducerStateType = {
-    users: UsersPropsType,
+    users: UsersPropsType[],
     pageSize: number,
     totalUsersCount: number,
     currentPage: number
 }
 
-const initialState = {
+const initialState: UsersReducerStateType = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,
@@ -23,7 +23,7 @@ const initialState = {
 
 //Будем перезатирать массив в users на тот что пришел
 //Можно сделать блочную видимость как в ADD POST {} чтобы переменная оттуда не пересекалась с другой
-const usersReducer = (state: UsersReducerStateType = initialState, action: UsersReducersActionType) => {
+const usersReducer = (state: UsersReducerStateType = initialState, action: UsersReducersActionType): UsersReducerStateType => {
     switch (action.type) {
         case "FOLLOW":
             return {...state, users: state.users.map(t => t.id === action.userID ? {...t, followed: true} : t)}
@@ -39,12 +39,12 @@ const usersReducer = (state: UsersReducerStateType = initialState, action: Users
             return state
     }
 }
-type FollowACType = ReturnType<typeof followAC>
-type UnfollowACType = ReturnType<typeof unfollowAC>
-type SetUsersACType = ReturnType<typeof setUsersAC>
-type SetCurrentPageACType = ReturnType<typeof setCurrentPageAC>
-type SetTotalUsersCountACType = ReturnType<typeof setTotalUsersCountAC>
-type UsersReducersActionType = FollowACType | UnfollowACType | SetUsersACType | SetCurrentPageACType | SetTotalUsersCountACType
+export type FollowACType = ReturnType<typeof followAC>
+export type UnfollowACType = ReturnType<typeof unfollowAC>
+export type SetUsersACType = ReturnType<typeof setUsersAC>
+export type SetCurrentPageACType = ReturnType<typeof setCurrentPageAC>
+export type SetTotalUsersCountACType = ReturnType<typeof setTotalUsersCountAC>
+export type UsersReducersActionType = FollowACType | UnfollowACType | SetUsersACType | SetCurrentPageACType | SetTotalUsersCountACType
 export const followAC = (userID: number) => ({type: "FOLLOW", userID}) as const
 export const unfollowAC = (userID: number) => ({type: "UNFOLLOW", userID}) as const
 export const setUsersAC = (users: any) => ({type: "SET-USERS", users}) as const

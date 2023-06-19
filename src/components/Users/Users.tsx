@@ -1,8 +1,9 @@
 import React from 'react';
 import s from "./Users.module.css";
 import userPhoto from "../../assets/images/user.png";
+import {UsersPropType} from "./UsersContainer";
 
-const Users = () => {
+const Users = (props:UsersPropType) => {
     let pagesCount = Math.ceil(this.props.currentPage / this.props.pageSize)
     let pages = []
     for (let i = 0; i <= pagesCount; i++) {

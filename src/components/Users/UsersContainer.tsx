@@ -1,9 +1,18 @@
 import {connect} from "react-redux";
-import {followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, unfollowAC, UsersPropsType, UsersReducerStateType} from "../../redux/usersReducer";
+import {
+    followAC,
+    setCurrentPageAC,
+    setTotalUsersCountAC,
+    setUsersAC,
+    unfollowAC,
+    UsersPropsType,
+    UsersReducerStateType
+} from "../../redux/usersReducer";
 import {AppStateType} from "../../redux/redux-store";
 import React from "react";
 import axios from "axios/index";
 import Users from "./Users";
+import {Dispatch} from "redux";
 
 
 type UsersType = UsersReducerStateType & {
@@ -14,6 +23,22 @@ type UsersType = UsersReducerStateType & {
     setTotalUsersCount: (totalUsersCount: number) => void
 }
 
+type MapStateToPropsType = {
+    users: UsersPropsType[]
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
+}
+
+type MapDispatchToPropsType = {
+    follow: (userID: number) => void
+    unfollow: (userID: number) => void
+    setUsers: (users: UsersPropsType[]) => void
+    setCurrentPage: (pageNumber: number) => void
+    setTotalUsersCount: (totalUsersCount: number) => void
+}
+
+export type UsersPropType = MapDispatchToPropsType & MapDispatchToPropsType
 
 export class UsersContainer extends React.Component<UsersType> {
     componentDidMount(): void {
@@ -50,21 +75,21 @@ export class UsersContainer extends React.Component<UsersType> {
     }
 }
 
-const mapStateToProps = (state: AppStateType) => ({
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     users: state.usersPage.users,
     pageSize: state.usersPage.pageSize,
     totalUsersCount: state.usersPage.totalUsersCount,
     currentPage: state.usersPage.currentPage
 })
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => ({
     follow: (userID: number) => {
         dispatch(followAC(userID))
     },
     unfollow: (userID: number) => {
         dispatch(unfollowAC(userID))
     },
-    setUsers: (users: any) => {
+    setUsers: (users: UsersPropsType[]) => {
         dispatch(setUsersAC(users))
     },
     setCurrentPage: (pageNumber: number) => {
@@ -75,4 +100,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(Users)

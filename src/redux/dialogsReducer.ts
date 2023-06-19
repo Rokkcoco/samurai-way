@@ -22,7 +22,9 @@ const initialState = {
         newMessageBody: ""
     }
 
-const dialogsReducer = (state = initialState, action: any) => {
+    export type dialogsPageType = typeof initialState
+
+const dialogsReducer = (state: dialogsPageType = initialState, action: any): dialogsPageType => {
     switch (action.type) {
         case UPDATE_NEW_MESSAGE_BODY:
             return {...state, newMessageBody: action.body}
