@@ -5,10 +5,10 @@ import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
 
 
-const Profile:FC = (): JSX.Element => {
+const Profile = (props): JSX.Element => {
     return (
         <div>
-            <ProfileInfo/>
+            <ProfileInfo profile={props.profile}/>
             <MyPostsContainer/>
         </div>
     )
