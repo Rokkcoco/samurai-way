@@ -1,11 +1,11 @@
-import React, {FC} from "react";
+import React from "react";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
 
 
-const Profile = (props): JSX.Element => {
+const Profile = (props:any): JSX.Element => {
     return (
         <div>
             <ProfileInfo profile={props.profile}/>

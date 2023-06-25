@@ -2,7 +2,7 @@ import React from "react";
 import s from "./ProfileInfo.module.css";
 import {Preloader} from "../../common/Preloader/Preloader";
 //если профайл нал или андефайнед
-const ProfileInfo = (props):JSX.Element => {
+const ProfileInfo = (props:any):JSX.Element => {
     if (!props.profile) {
         return <Preloader/>
     }
