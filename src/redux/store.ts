@@ -18,6 +18,7 @@ export type MessagesDataType = {
 export type ProfilePageType = {
     posts: PostsDataType[]
     newPostText: string
+    profile:any
 }
 export type MessagesPageType = {
     messages: MessagesDataType[]
@@ -48,7 +49,8 @@ export const store: StoreType = {
                 {id: 4, message: "It's my first post", likesCount: 25},
                 {id: 5, message: "Yo", likesCount: 9}
             ],
-            newPostText: "it-kamasutra.com"
+            newPostText: "it-kamasutra.com",
+            profile: null
 
         },
         dialogsPage: {
