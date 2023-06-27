@@ -7,7 +7,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {useLocation, useParams, useNavigate, NavigateFunction, Params} from "react-router-dom";
 import { Location } from 'history';
 
-type RouterProps = {
+type RouterPropsType = {
    router: {
        location: Location;
        navigate: NavigateFunction;
@@ -23,7 +23,7 @@ type MapDispatchToPropsType = {
     setUserProfile: (profile: any) => void
 }
 
-type ProfileContainerPropsType = MapStateToPropsType & MapDispatchToPropsType & RouterProps
+type ProfileContainerPropsType = MapStateToPropsType & MapDispatchToPropsType & RouterPropsType
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     componentDidMount() {

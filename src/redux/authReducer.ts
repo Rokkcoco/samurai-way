@@ -4,18 +4,20 @@ type InitialStateType = {
     userId: null | number
     email: null | string
     login: null | string
+    isAuth: boolean
 }
 //& {isFetching:boolean}
 const initialState= {
     userId: null,
     email: null,
-    login: null
+    login: null,
+    isAuth: false
 }
 
 const authReducer = (state: typeof initialState= initialState, action: AuthReducerActionsType): InitialStateType => {
     switch (action.type) {
         case "SET-USER-DATA":
-            return {...state, ...action.data}
+            return {...state, ...action.data, isAuth: true}
         default:
             return state
     }
