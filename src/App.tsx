@@ -19,7 +19,7 @@ const App: FC = (): JSX.Element => (
         <div className="app-wrapper-content">
             <Routes>
                 <Route path='/dialogs/*' element={<DialogsContainer/>}/>
-                <Route path='/profile/:userId' element={<ProfileContainer/>}/>
+                <Route path='/profile/:userID' element={<ProfileContainer/>}/>
                 <Route path='/profile' element={<ProfileContainer/>}/>
                 <Route/>
                 <Route path='/users' element={<UsersContainer/>}/>
