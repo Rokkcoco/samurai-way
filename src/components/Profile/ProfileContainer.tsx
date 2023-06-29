@@ -3,9 +3,10 @@ import Profile from "./Profile";
 import {connect} from "react-redux";
 import {getUserProfile} from "../../redux/profileReducer";
 import {AppStateType} from "../../redux/redux-store";
-import {useLocation, useParams, useNavigate, NavigateFunction, Params, Navigate} from "react-router-dom";
+import {useLocation, useParams, useNavigate, NavigateFunction, Params} from "react-router-dom";
 import { Location } from 'history';
-import {withAuthRedirect, WithAuthRedirect} from "../../hoc/withAuthRedirect";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 type RouterPropsType = {
@@ -67,11 +68,14 @@ function withRouter(Component: any) {
     return ComponentWithRouterProp;
 }
 
-const AuthRedirectComponent = withAuthRedirect(ProfileContainer)
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     profile: state.profilePage.profile
 })
 
 
-export default connect(mapStateToProps, {getUserProfile})(withRouter(AuthRedirectComponent));
+
+export default compose(
+    connect(mapStateToProps, {getUserProfile}),
+    withRouter,
+    withAuthRedirect)(ProfileContainer)

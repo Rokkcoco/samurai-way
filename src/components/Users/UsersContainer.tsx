@@ -12,6 +12,7 @@ import React from "react";
 import Users from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 
@@ -73,13 +74,16 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
 
 //mapDispatchToProps создает колбэк за нас
 
-//@ts-ignore
-export default withAuthRedirect(connect(mapStateToProps, {
-    followSuccess,
-    unfollowSuccess,
-    setCurrentPage,
-    toggleIsFollowingProgress,
-    getUsers,
-    follow,
-    unfollow
-})(UsersContainer))
+
+export default compose(
+    connect(mapStateToProps, {
+        followSuccess,
+        unfollowSuccess,
+        setCurrentPage,
+        toggleIsFollowingProgress,
+        getUsers,
+        follow,
+        unfollow
+    }),
+    withAuthRedirect)(UsersContainer)
+
