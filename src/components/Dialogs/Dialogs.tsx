@@ -27,7 +27,6 @@ const Dialogs: FC<DialogsType> = ({updateNewMessageBody, sendMessage, dialogsPag
     }
 
 
-    if (!isAuth) return <Navigate to="/login"/>
 
     return (
         <div className={s.dialogs}>
