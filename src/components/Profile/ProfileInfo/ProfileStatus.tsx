@@ -17,6 +17,15 @@ class ProfileStatus extends React.Component<any> {
         })
         this.props.updateStatus(this.state.status)
     }
+//если при обновлении новый статус из пропсов изменился и не совпадает с текущем, то перезапишем
+    componentDidUpdate(prevProps:any, prevState: any) {
+        if (prevProps.status !== this.props.status) {
+            this.setState({
+                status: this.props.status
+            })
+        }
+    }
+
     //делаем стрелочным, чтобы не потерять this
     statusOnChange = (e:ChangeEvent<HTMLInputElement>)=> {
         this.setState({status: e.currentTarget.value})

@@ -75,7 +75,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
 //mapDispatchToProps создает колбэк за нас
 
 
-export default compose(
+export default compose<React.ComponentType>(
     connect(mapStateToProps, {
         followSuccess,
         unfollowSuccess,
