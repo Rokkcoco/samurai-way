@@ -20,6 +20,7 @@ const initialState = {
     }
 //Можно сделать блочную видимость как в ADD POST {} чтобы переменная оттуда не пересекалась с другой
 const profileReducer = (state = initialState, action: ProfileReducerActionsType) => {
+
     switch (action.type) {
         case ADD_POST: {
             const newPost: PostsDataType = {
@@ -65,7 +66,7 @@ export const getStatus = (userID: number) => (dispatch: Dispatch) => {
 //если резалткод 0, т.е. без ошибки
 export const updateStatus = (status: string) => (dispatch: Dispatch) => {
     profileAPI.updateStatus(status).then(response => {
-        if (response.data.resultcode === 0) {
+        if (response.data.resultCode === 0) {
             dispatch(setStatus(status))
         }
     })
