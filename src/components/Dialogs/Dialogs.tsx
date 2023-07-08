@@ -3,6 +3,8 @@ import s from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {MessagesPageType} from "../../redux/store";
+import {useForm} from "react-hook-form";
+import {log} from "util";
 
 
 type DialogsType = {
@@ -26,7 +28,9 @@ const Dialogs: FC<DialogsType> = ({updateNewMessageBody, sendMessage, dialogsPag
         updateNewMessageBody(e.target.value)
     }
 
-
+    const addMessage = (e:any) => {
+        alert(e)
+    }
 
     return (
         <div className={s.dialogs}>
@@ -35,15 +39,24 @@ const Dialogs: FC<DialogsType> = ({updateNewMessageBody, sendMessage, dialogsPag
             </div>
             <div className={s.messages}>
                 <div>{messagesElements}</div>
-                <div>
-                    <div><textarea value={dialogsPage.newMessageBody}
-                                   onChange={onNewMessageChange}
-                                   placeholder="Enter your message"></textarea></div>
-                    <div><button onClick={onSendMessageClick}>Send</button></div>
-                </div>
+        <AddMessageForm/>
             </div>
         </div>
     )
+}
+
+const AddMessageForm = () => {
+    const {register, handleSubmit} = useForm()
+    const onSubmit = (d: any) => console.log(d)
+   return <form onSubmit={handleSubmit(onSubmit)}>
+       {/*value={dialogsPage.newMessageBody}*/}
+      {/* onChange={onNewMessageChange}*/}
+        <div><textarea
+                       {...register("newMessageBody")}
+
+                       placeholder="Enter your message"></textarea></div>
+        <div><button>Send</button></div>
+    </form>
 }
 
 export default Dialogs;
