@@ -2,9 +2,7 @@ import {PostsDataType} from "./store";
 import {Dispatch} from "redux";
 import {profileAPI, usersAPI} from "../api/api";
 
-
 const ADD_POST = "ADD-POST"
-const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT"
 
 const initialState = {
         posts: [
@@ -14,7 +12,6 @@ const initialState = {
             {id: 4, message: "It's my first post", likesCount: 25},
             {id: 5, message: "Yo", likesCount: 9}
         ],
-        newPostText: "it-kamasutra.com",
     profile: null,
     status: ""
     }
@@ -25,13 +22,11 @@ const profileReducer = (state = initialState, action: ProfileReducerActionsType)
         case ADD_POST: {
             const newPost: PostsDataType = {
                 id: Date.now(),
-                message: state.newPostText,
+                message: action.newPostText,
                 likesCount: 0
             }
             return {...state, newPostText: "", posts: [...state.posts, newPost]}
         }
-        case UPDATE_NEW_POST_TEXT:
-            return {...state, newPostText: action.newText}
         case "SET-USER-PROFILE":
             return {...state, profile: action.profile }
         case "SET-STATUS":
@@ -41,13 +36,12 @@ const profileReducer = (state = initialState, action: ProfileReducerActionsType)
     }
 }
 type AddPostActionCreatorType = ReturnType<typeof addPostActionCreator>
-type UpdateNewPostTextActionCreatorType = ReturnType<typeof updateNewPostTextActionCreator>
+
 type SetUserProfileType = ReturnType<typeof setUserProfile>
 type SetStatusType = ReturnType<typeof setStatus>
-type ProfileReducerActionsType = AddPostActionCreatorType | UpdateNewPostTextActionCreatorType | SetUserProfileType | SetStatusType
-export const addPostActionCreator = () => ({type: ADD_POST}) as const
-export const updateNewPostTextActionCreator = (text: string) =>
-    ({type: UPDATE_NEW_POST_TEXT, newText: text}) as const
+type ProfileReducerActionsType = AddPostActionCreatorType  | SetUserProfileType | SetStatusType
+export const addPostActionCreator = (newPostText:string) => ({type: ADD_POST, newPostText}) as const
+
 
 export const setUserProfile = (profile: any) => ({type: "SET-USER-PROFILE", profile}) as const
 export const setStatus = (status: string) => ({type: "SET-STATUS", status}) as const

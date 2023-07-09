@@ -1,6 +1,6 @@
+import {FieldValue, FieldValues} from "react-hook-form";
 
 
-const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY"
 const SEND_MESSAGE = "SEND-MESSAGE"
 type DialogsType = {
     id: number
@@ -25,24 +25,19 @@ const initialState = {
             {id: 3, message: "Yo"},
             {id: 4, message: "Yo"},
             {id: 5, message: "Yo"}
-        ] as MessagesType[],
-        newMessageBody: ""
+        ] as MessagesType[]
     }
 
     export type DialogsPageType = typeof initialState
 
 const dialogsReducer = (state: DialogsPageType = initialState, action: any): DialogsPageType => {
     switch (action.type) {
-        case UPDATE_NEW_MESSAGE_BODY:
-            return {...state, newMessageBody: action.body}
         case SEND_MESSAGE:
-            return {...state, newMessageBody: "", messages: [...state.messages, {id: Date.now(), message: state.newMessageBody}]}
+            return {...state, messages: [...state.messages, {id: Date.now(), message: action.newMessageBody}]}
         default:
             return state
     }
 }
 
-export const sendMessageCreator = () => ({type: SEND_MESSAGE})
-export const updateNewMessageBodyCreator = (body: string) =>
-    ({type: UPDATE_NEW_MESSAGE_BODY, body: body})
+export const sendMessageCreator = (newMessageBody:string) => ({type: SEND_MESSAGE, newMessageBody})
 export default dialogsReducer
