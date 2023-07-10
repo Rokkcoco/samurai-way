@@ -28,7 +28,7 @@ const Dialogs: FC<DialogsType> = ({sendMessage, dialogsPage, isAuth}): JSX.Eleme
                 {dialogsElements}
             </div>
             <div className={s.messages}>
-                <div>{messagesElements}</div>а чег
+                <div>{messagesElements}</div>
         <AddMessageForm sendMessage={sendMessage}/>
             </div>
         </div>
