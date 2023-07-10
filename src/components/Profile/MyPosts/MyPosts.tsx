@@ -7,7 +7,6 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 
-
 type MyPostsType = {
     updateNewPostText: (text: string) => void
     addPost: (post: string) => void
@@ -40,33 +39,34 @@ const AddNewPostForm = (props: AddNewPostFormPropsType) => {
 
     const myPostsSchema = yup
         .object({
-            newPostText: yup.string().required('This Field cant be empty').max(30, 'Maximum 30 symbols')
+            newPostText: yup.string().required("This Field cant be empty").max(30, 'Maximum 30 symbols')
         })
         .required()
 
     const {
         register,
         handleSubmit,
-        formState: {errors},
+        formState: {errors, isDirty},
         reset
     }
         = useForm({resolver: yupResolver(myPostsSchema)})
-
+    console.log(myPostsSchema)
     const onSubmit = (data: FieldValues) => {
         props.addPost(data.newPostText)
         reset()
     }
 
-
-    return <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-            <textarea {...register("newPostText")} />
-            <p>{errors.newPostText?.message}</p>
-        </div>
-        <div>
-            <button>Add post</button>
-        </div>
-    </form>
+    return (
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
+                <textarea {...register("newPostText")}/>
+                <p>{errors.newPostText?.message}</p>
+            </div>
+            <div>
+                <button disabled={!isDirty}>Add post</button>
+            </div>
+        </form>
+    )
 }
 
 export default MyPosts;

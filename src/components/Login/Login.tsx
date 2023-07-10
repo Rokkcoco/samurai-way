@@ -1,24 +1,48 @@
 import React from 'react';
 import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import {connect} from "react-redux";
+import {login} from "../../redux/authReducer";
 
+type LoginPropsType = {
+    login: (email: string, password: string, rememberMe: boolean) => void
+}
+const Login = ({login}:LoginPropsType) => {
 
-const Login = () => {
-
-    const {register, handleSubmit} = useForm()
-    const onSubmit = (d: any) => {
-        console.log(d)
+    const loginSchema = yup
+        .object({
+            email: yup.string().required("This Field cant be empty").max(30, 'Maximum 30 symbols'),
+            password: yup.string().required("This Field cant be empty").max(30, 'Maximum 30 symbols').min(6, "Minimum 6 character"),
+            rememberMe: yup.boolean().optional().default(false)
+        })
+        .required()
+    const {
+        register,
+        handleSubmit,
+        formState: {errors},
+        reset
+    }
+        = useForm({resolver: yupResolver(loginSchema)})
+    const onSubmit = (data: {email: string, password: string, rememberMe: boolean}) => {
+        console.log(data)
+        login(data.email, data.password, data.rememberMe)
+        reset()
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <h1>LOGIN</h1>
             <div>
-                <input {...register("login")} placeholder={"Login"}/>
+                <input {...register("email")} placeholder={"Email"}/>
+                <p>{errors.email?.message}</p>
             </div>
             <div>
-                <input {...register("password")} placeholder={"Password"}/>
+                <input {...register("password")} type={"password"} placeholder={"Password"}/>
+                <p>{errors.password?.message}</p>
             </div>
             <div>
                 <input  {...register("rememberMe")} type={"checkbox"}/>remember me
+
             </div>
             <div>
                 <button>Login</button>
@@ -28,4 +52,4 @@ const Login = () => {
 };
 
 
-export default Login;
+export default connect(null, {login})(Login)

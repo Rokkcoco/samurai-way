@@ -9,8 +9,8 @@ type mapDispatchToPropsType = {
     getAuthUserData: () => void
 }
 type mapStateToPropsType = {
-    isAuth: null | boolean
-    login: null | string
+    isAuth: boolean
+    login: string| null
 }
 type HeaderContainerPropsType = mapDispatchToPropsType & mapStateToPropsType
 
