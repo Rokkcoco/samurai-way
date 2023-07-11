@@ -18,7 +18,7 @@ type LoginPropsType = {
     login: (email: string, password: string, rememberMe: boolean) => void
     isAuth: boolean
 }
-const Login = ({login, isAuth}:LoginPropsType) => {
+const Login = ({login, isAuth}: LoginPropsType) => {
 
     const loginSchema = yup
         .object({
@@ -31,30 +31,33 @@ const Login = ({login, isAuth}:LoginPropsType) => {
         register,
         handleSubmit,
         formState: {errors},
-        reset
+        reset,
+        setError
     }
         = useForm({resolver: yupResolver(loginSchema)})
-    const onSubmit = (data: {email: string, password: string, rememberMe: boolean}) => {
-        console.log(data)
-        login(data.email, data.password, data.rememberMe)
-        reset()
-    }
+    const onSubmit =  (data: { email: string, password: string, rememberMe: boolean }) => {
+            console.log(data)
+            login(data.email, data.password, data.rememberMe)
+            console.log(errors)
 
+    }
+//   setError('email', {type: "serverSideError", message:"bad"})
+//             setError("password", {type: "basd"})
     if (isAuth) {
         return <Navigate to={'/profile'}/>
     }
 
-
+    console.log(errors)
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <h1>LOGIN</h1>
             <div>
                 <input {...register("email")} placeholder={"Email"}/>
-                <p>{errors.email?.message}</p>
+                {errors.email && <p>{errors.email.message}</p>}
             </div>
             <div>
                 <input {...register("password")} type={"password"} placeholder={"Password"}/>
-                <p>{errors.password?.message}</p>
+                {errors.password && <p>{errors.password.message}</p>}
             </div>
             <div>
                 <input  {...register("rememberMe")} type={"checkbox"}/>remember me
