@@ -4,6 +4,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {connect} from "react-redux";
 import {login} from "../../redux/authReducer";
+import {Navigate} from "react-router-dom";
 
 type LoginPropsType = {
     login: (email: string, password: string, rememberMe: boolean) => void
@@ -29,6 +30,12 @@ const Login = ({login}:LoginPropsType) => {
         login(data.email, data.password, data.rememberMe)
         reset()
     }
+
+    if (auth) {
+        return <Navigate to={'/profile'}/>
+    }
+
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <h1>LOGIN</h1>
