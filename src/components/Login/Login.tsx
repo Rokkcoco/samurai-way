@@ -5,11 +5,20 @@ import * as yup from "yup";
 import {connect} from "react-redux";
 import {login} from "../../redux/authReducer";
 import {Navigate} from "react-router-dom";
+import {AppStateType} from "../../redux/redux-store";
+
+type MapStateToPropsType = {
+    isAuth: boolean
+}
+const mapPropsToState = (state: AppStateType): MapStateToPropsType => ({
+    isAuth: state.auth.isAuth
+})
 
 type LoginPropsType = {
     login: (email: string, password: string, rememberMe: boolean) => void
+    isAuth: boolean
 }
-const Login = ({login}:LoginPropsType) => {
+const Login = ({login, isAuth}:LoginPropsType) => {
 
     const loginSchema = yup
         .object({
@@ -31,7 +40,7 @@ const Login = ({login}:LoginPropsType) => {
         reset()
     }
 
-    if (auth) {
+    if (isAuth) {
         return <Navigate to={'/profile'}/>
     }
 
@@ -59,4 +68,4 @@ const Login = ({login}:LoginPropsType) => {
 };
 
 
-export default connect(null, {login})(Login)
+export default connect(mapPropsToState, {login})(Login)

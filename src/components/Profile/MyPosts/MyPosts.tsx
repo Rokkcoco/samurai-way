@@ -8,14 +8,12 @@ import * as yup from "yup";
 
 
 type MyPostsType = {
-    updateNewPostText: (text: string) => void
     addPost: (post: string) => void
     posts: PostsDataType[]
-    newPostText: string
 }
 
 
-const MyPosts: FC<MyPostsType> = ({updateNewPostText, addPost, newPostText, posts}): JSX.Element => {
+const MyPosts: FC<MyPostsType> = ({addPost, posts}): JSX.Element => {
 
     const postsElements: JSX.Element[] = posts.map((t, index) => <Post key={index} message={t.message}
                                                                        likeCounts={t.likesCount}
