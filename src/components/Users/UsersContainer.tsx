@@ -7,7 +7,7 @@ import {
     unfollowSuccess,
     UsersPropsType
 } from "../../redux/usersReducer";
-import {AppStateType} from "../../redux/redux-store";
+import {AppRootStateType} from "../../redux/redux-store";
 import React from "react";
 import Users from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
@@ -63,7 +63,7 @@ export class UsersContainer extends React.Component<UsersPropType> {
     }
 }
 
-const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
+const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => ({
     users: state.usersPage.users,
     pageSize: state.usersPage.pageSize,
     totalUsersCount: state.usersPage.totalUsersCount,

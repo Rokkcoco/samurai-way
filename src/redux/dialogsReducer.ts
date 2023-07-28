@@ -1,6 +1,3 @@
-import {FieldValue, FieldValues} from "react-hook-form";
-
-
 const SEND_MESSAGE = "SEND-MESSAGE"
 type DialogsType = {
     id: number

@@ -1,21 +1,21 @@
 import React from 'react';
-import {useForm} from "react-hook-form";
+import {useForm, UseFormSetError} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {connect} from "react-redux";
 import {login} from "../../redux/authReducer";
 import {Navigate} from "react-router-dom";
-import {AppStateType} from "../../redux/redux-store";
+import {AppRootStateType} from "../../redux/redux-store";
 
 type MapStateToPropsType = {
     isAuth: boolean
 }
-const mapPropsToState = (state: AppStateType): MapStateToPropsType => ({
+const mapPropsToState = (state: AppRootStateType): MapStateToPropsType => ({
     isAuth: state.auth.isAuth
 })
 
 type LoginPropsType = {
-    login: (email: string, password: string, rememberMe: boolean) => void
+    login: (email: string, password: string, rememberMe: boolean, setError:UseFormSetError<{ email: string; password: string; rememberMe: boolean; }>) => void
     isAuth: boolean
 }
 const Login = ({login, isAuth}: LoginPropsType) => {
@@ -31,14 +31,11 @@ const Login = ({login, isAuth}: LoginPropsType) => {
         register,
         handleSubmit,
         formState: {errors},
-        reset,
         setError
     }
         = useForm({resolver: yupResolver(loginSchema)})
     const onSubmit =  (data: { email: string, password: string, rememberMe: boolean }) => {
-            console.log(data)
-            login(data.email, data.password, data.rememberMe)
-            console.log(errors)
+    login(data.email, data.password, data.rememberMe, setError)
 
     }
 //   setError('email', {type: "serverSideError", message:"bad"})

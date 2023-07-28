@@ -1,5 +1,5 @@
-import {Dispatch} from "redux";
 import {usersAPI} from "../api/api";
+import {AppThunk} from "./redux-store";
 
 export type UsersPropsType = {
     "name": string,
@@ -86,7 +86,7 @@ export const toggleIsFollowingProgress = (isFollowing: boolean, userID: number) 
     userID
 }) as const
 
-export const getUsers = (currentPage: number, pageSize: number) => (dispatch: Dispatch) => {
+export const getUsers = (currentPage: number, pageSize: number):AppThunk => (dispatch) => {
     dispatch(toggleIsFetching(true))
     usersAPI.getUsers(currentPage, pageSize).then(data => {
             dispatch(toggleIsFetching(false))
@@ -97,7 +97,7 @@ export const getUsers = (currentPage: number, pageSize: number) => (dispatch: Di
     )
 }
 
-export const follow = (userID: number) => (dispatch: Dispatch) => {
+export const follow = (userID: number):AppThunk => (dispatch) => {
     dispatch(toggleIsFollowingProgress(true, userID))
     usersAPI.follow(userID)
         .then(response => {
@@ -108,7 +108,7 @@ export const follow = (userID: number) => (dispatch: Dispatch) => {
         })
 }
 
-export const unfollow = (userID: number) => (dispatch: Dispatch) => {
+export const unfollow = (userID: number):AppThunk => (dispatch) => {
     dispatch(toggleIsFollowingProgress(true, userID))
     usersAPI.unfollow(userID)
         .then(response => {

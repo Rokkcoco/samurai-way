@@ -2,7 +2,7 @@ import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import {getStatus, getUserProfile, updateStatus} from "../../redux/profileReducer";
-import {AppStateType} from "../../redux/redux-store";
+import {AppRootStateType} from "../../redux/redux-store";
 import {NavigateFunction, Params, useLocation, useNavigate, useParams} from "react-router-dom";
 import {Location} from 'history';
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
@@ -13,14 +13,15 @@ type RouterPropsType = {
    router: {
        location: Location;
        navigate: NavigateFunction;
-       params: Params;
+       params: Params<"userID">;
    }
 };
 
 type MapStateToPropsType = {
     profile: any
     status: string
-
+    authorizedUserID: number | null
+    isAuth:boolean
 }
 
 type MapDispatchToPropsType = {
@@ -37,7 +38,11 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         let userID = this.props.router.params.userID
 
         if (!userID) {
-            userID = "29128"
+            userID = this.props.authorizedUserID?.toString()
+            // if (!userID) {
+            //     this.props.router.location.pathname ="/login"
+            // }
+            //вроде все работает, проверить не показывает ли профиль после logout
         }
         this.props.getUserProfile(Number(userID))
 
@@ -56,7 +61,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
 
 // wrapper to use react router's v6 hooks in class component(to use HOC pattern, like in router v5)
-function withRouter(Component: any) {
+export function withRouter(Component: any) {
     function ComponentWithRouterProp(props: any) {
         let location = useLocation();
         let navigate = useNavigate();
@@ -73,9 +78,11 @@ function withRouter(Component: any) {
 }
 
 
-const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
+const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => ({
     profile: state.profilePage.profile,
-    status: state.profilePage.status
+    status: state.profilePage.status,
+    authorizedUserID: state.auth.userId,
+    isAuth: state.auth.isAuth
 })
 
 
