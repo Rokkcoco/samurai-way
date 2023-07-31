@@ -3,7 +3,11 @@ import {Dispatch} from "redux";
 import {profileAPI, usersAPI} from "../api/api";
 
 const ADD_POST = "ADD-POST"
-
+type PostsType = {
+    id: number
+    message: string
+    likesCount: number
+}
 const initialState = {
         posts: [
             {id: 1, message: "Hi, how are you", likesCount: 12},
@@ -11,12 +15,13 @@ const initialState = {
             {id: 3, message: "How old are you", likesCount: 2},
             {id: 4, message: "It's my first post", likesCount: 25},
             {id: 5, message: "Yo", likesCount: 9}
-        ],
+        ] as PostsType[],
     profile: null,
     status: ""
     }
+    export type InitialStateType = typeof initialState
 //Можно сделать блочную видимость как в ADD POST {} чтобы переменная оттуда не пересекалась с другой
-const profileReducer = (state = initialState, action: ProfileReducerActionsType) => {
+const profileReducer = (state:InitialStateType = initialState, action: ProfileReducerActionsType) => {
 
     switch (action.type) {
         case ADD_POST: {
@@ -31,6 +36,9 @@ const profileReducer = (state = initialState, action: ProfileReducerActionsType)
             return {...state, profile: action.profile }
         case "SET-STATUS":
             return {...state, status: action.status}
+        case "DELETE-POST": {
+            return {...state, posts: state.posts.filter(t => t.id !== action.postID)}
+        }
         default:
             return state
     }
@@ -39,7 +47,8 @@ type AddPostActionCreatorType = ReturnType<typeof addPostActionCreator>
 
 type SetUserProfileType = ReturnType<typeof setUserProfile>
 type SetStatusType = ReturnType<typeof setStatus>
-type ProfileReducerActionsType = AddPostActionCreatorType  | SetUserProfileType | SetStatusType
+type DeletePostType = ReturnType<typeof deletePost>
+type ProfileReducerActionsType = AddPostActionCreatorType  | SetUserProfileType | SetStatusType | DeletePostType
 export const addPostActionCreator = (newPostText:string) => ({type: ADD_POST, newPostText}) as const
 
 
@@ -65,5 +74,7 @@ export const updateStatus = (status: string) => (dispatch: Dispatch) => {
         }
     })
 }
+
+export const deletePost = (postID: number) => ({type: "DELETE-POST", postID} as const)
 
 export default profileReducer
