@@ -13,7 +13,7 @@ type MyPostsType = {
 }
 
 
-const MyPosts: FC<MyPostsType> = ({addPost, posts}): JSX.Element => {
+const MyPosts: FC<MyPostsType> = React.memo(({addPost, posts}): JSX.Element => {
 
     const postsElements: JSX.Element[] = posts.map((t, index) => <Post key={index} message={t.message}
                                                                        likeCounts={t.likesCount}
@@ -27,7 +27,7 @@ const MyPosts: FC<MyPostsType> = ({addPost, posts}): JSX.Element => {
             {postsElements}
         </div>
     </div>
-}
+})
 
 type AddNewPostFormPropsType = {
     addPost: (post: string) => void
