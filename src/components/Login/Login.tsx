@@ -13,9 +13,13 @@ type MapStateToPropsType = {
 const mapPropsToState = (state: AppRootStateType): MapStateToPropsType => ({
     isAuth: state.auth.isAuth
 })
-
+export type LoginFormTypes = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
 type LoginPropsType = {
-    login: (email: string, password: string, rememberMe: boolean, setError:UseFormSetError<{ email: string; password: string; rememberMe: boolean; }>) => void
+    login: (email: string, password: string, rememberMe: boolean, setError: UseFormSetError<LoginFormTypes>) => void
     isAuth: boolean
 }
 const Login = ({login, isAuth}: LoginPropsType) => {
@@ -34,8 +38,8 @@ const Login = ({login, isAuth}: LoginPropsType) => {
         setError
     }
         = useForm({resolver: yupResolver(loginSchema)})
-    const onSubmit =  (data: { email: string, password: string, rememberMe: boolean }) => {
-    login(data.email, data.password, data.rememberMe, setError)
+    const onSubmit = (data: { email: string, password: string, rememberMe: boolean }) => {
+        login(data.email, data.password, data.rememberMe, setError)
 
     }
 //   setError('email', {type: "serverSideError", message:"bad"})

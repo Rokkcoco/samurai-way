@@ -55,24 +55,23 @@ export const addPostActionCreator = (newPostText:string) => ({type: ADD_POST, ne
 export const setUserProfile = (profile: any) => ({type: "SET-USER-PROFILE", profile}) as const
 export const setStatus = (status: string) => ({type: "SET-STATUS", status}) as const
 
-export const getUserProfile = (userID: number) => (dispatch: Dispatch) => {
-    usersAPI.getProfile(userID).then(response => {
+export const getUserProfile = (userID: number) => async (dispatch: Dispatch) => {
+    const response = await usersAPI.getProfile(userID)
         dispatch(setUserProfile(response.data))
-    })
+
 }
 
-export const getStatus = (userID: number) => (dispatch: Dispatch) => {
-    profileAPI.getStatus(userID).then(response => {
+export const getStatus = (userID: number) => async (dispatch: Dispatch) => {
+    const response = await profileAPI.getStatus(userID)
         dispatch(setStatus(response.data))
-    })
 }
 //если резалткод 0, т.е. без ошибки
-export const updateStatus = (status: string) => (dispatch: Dispatch) => {
-    profileAPI.updateStatus(status).then(response => {
+export const updateStatus = (status: string) => async (dispatch: Dispatch) => {
+    const response = await profileAPI.updateStatus(status)
         if (response.data.resultCode === 0) {
             dispatch(setStatus(status))
         }
-    })
+
 }
 
 export const deletePost = (postID: number) => ({type: "DELETE-POST", postID} as const)
