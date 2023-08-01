@@ -1,6 +1,13 @@
 import React, {ChangeEvent} from 'react';
-
-class ProfileStatus extends React.Component<any> {
+type ProfileStatusType = {
+    editMode: boolean
+    status: string
+}
+type ProfileStatusPropsType = {
+    status: string
+    updateStatus: (status: string)=>void
+}
+class ProfileStatus extends React.Component<ProfileStatusPropsType, ProfileStatusType> {
 
     state = {
         editMode: false,
