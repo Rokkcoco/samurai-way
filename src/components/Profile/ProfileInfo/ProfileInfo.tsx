@@ -4,7 +4,7 @@ import {Preloader} from "../../common/Preloader/Preloader";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 //если профайл нал или андефайнед
 const ProfileInfo = ({profile, status, updateStatus}:any):JSX.Element => {
-    if (profile) {
+    if (!profile) {
         return <Preloader/>
     }
 
