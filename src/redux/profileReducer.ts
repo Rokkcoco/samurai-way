@@ -1,6 +1,7 @@
 import {PostsDataType} from "./store";
 import {Dispatch} from "redux";
 import {profileAPI, usersAPI} from "../api/api";
+import {AppRootStateType, AppThunk} from "./redux-store";
 
 const ADD_POST = "ADD-POST"
 type PostsType = {
@@ -16,7 +17,7 @@ const initialState = {
             {id: 4, message: "It's my first post", likesCount: 25},
             {id: 5, message: "Yo", likesCount: 9}
         ] as PostsType[],
-    profile: null,
+    profile: null as null|{},
     status: ""
     }
     export type InitialStateType = typeof initialState
@@ -42,6 +43,7 @@ const profileReducer = (state:InitialStateType = initialState, action: ProfileRe
         case "SAVE-PHOTO-SUCCESS": {
             return {...state, profile: {...state.profile, photos: action.photos}}
         }
+
         default:
             return state
     }
@@ -51,8 +53,9 @@ type AddPostActionCreatorType = ReturnType<typeof addPostActionCreator>
 type SetUserProfileType = ReturnType<typeof setUserProfile>
 type SetStatusType = ReturnType<typeof setStatus>
 type DeletePostType = ReturnType<typeof deletePost>
-type SavePhotoSuccess = ReturnType<typeof savePhotoSuccess>
-type ProfileReducerActionsType = AddPostActionCreatorType  | SetUserProfileType | SetStatusType | DeletePostType | SavePhotoSuccess
+type SavePhotoSuccessType = ReturnType<typeof savePhotoSuccess>
+
+type ProfileReducerActionsType = AddPostActionCreatorType  | SetUserProfileType | SetStatusType | DeletePostType | SavePhotoSuccessType
 export const addPostActionCreator = (newPostText:string) => ({type: ADD_POST, newPostText}) as const
 
 
@@ -63,26 +66,33 @@ export const savePhotoSuccess = (photos:any) => ({type: "SAVE-PHOTO-SUCCESS", ph
 export const getUserProfile = (userID: number) => async (dispatch: Dispatch) => {
     const response = await usersAPI.getProfile(userID)
         dispatch(setUserProfile(response.data))
-
 }
 
 export const getStatus = (userID: number) => async (dispatch: Dispatch) => {
     const response = await profileAPI.getStatus(userID)
         dispatch(setStatus(response.data))
 }
+
 //если резалткод 0, т.е. без ошибки
 export const updateStatus = (status: string) => async (dispatch: Dispatch) => {
     const response = await profileAPI.updateStatus(status)
-        if (response.data.resultCode === 0) {
-            dispatch(setStatus(status))
-        }
-
+        if (response.data.resultCode === 0) dispatch(setStatus(status))
 }
+
 //fix any
 export const savePhoto = (file:any) => async (dispatch: Dispatch) => {
     const response = await profileAPI.savePhoto(file)
+        if (response.data.resultCode === 0) dispatch(savePhotoSuccess(response.data.data.photos))
+}
+
+export const saveProfile = (profile:any):AppThunk => async (dispatch, getState: ()=>AppRootStateType) => {
+    const userID = getState().auth.userId
+    const response = await profileAPI.saveProfile(profile)
         if (response.data.resultCode === 0) {
-            dispatch(savePhotoSuccess(response.data.data.photos))
+           await dispatch(getUserProfile(userID as number))
+        } else {
+            console.log(response.data.messages[0])
+            return Promise.reject(response.data.messages[0])
         }
 
 }

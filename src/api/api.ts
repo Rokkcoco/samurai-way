@@ -41,6 +41,9 @@ export const profileAPI = {
         const saveData = new FormData()
         saveData.append("avatar", photoFile)
         return instance.put(`profile/photo`, saveData, {headers:{"Content-type":"multipart/form-data"}})
+    },
+    saveProfile(profile:any) {
+        return instance.put(`profile`, profile)
     }
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {getStatus, getUserProfile, savePhoto, updateStatus} from "../../redux/profileReducer";
+import {getStatus, getUserProfile, savePhoto, saveProfile, updateStatus} from "../../redux/profileReducer";
 import {AppRootStateType} from "../../redux/redux-store";
 import {NavigateFunction, Params, useLocation, useNavigate, useParams} from "react-router-dom";
 import {Location} from 'history';
@@ -29,6 +29,7 @@ type MapDispatchToPropsType = {
     getStatus: (userID: number) => void
     updateStatus: (status:string) => void
     savePhoto: () => void
+    saveProfile:(profile:any)=>void
 }
 
 type ProfileContainerPropsType = MapStateToPropsType & MapDispatchToPropsType & RouterPropsType
@@ -39,13 +40,12 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         console.log(this.props.router)
         let userID = this.props.router.params.userID
 
-        if (!userID) {
-            userID = this.props.authorizedUserID?.toString()
+        if (!userID) userID = this.props.authorizedUserID?.toString()
             // if (!userID) {
             //     this.props.router.location.pathname ="/login"
             // }
             //вроде все работает, проверить не показывает ли профиль после logout
-        }
+
         this.props.getUserProfile(Number(userID))
 
         this.props.getStatus(Number(userID))
@@ -56,11 +56,10 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
 
     componentDidUpdate(prevProps:ProfileContainerPropsType) {
-        if (prevProps.router.params.userID !== this.props.router.params.userID) {
-            this.refreshProfile()
-        }
-    }
+        if (prevProps.router.params.userID !== this.props.router.params.userID) this.refreshProfile()
 
+    }
+//если у меня в парамсе нет userID, значит я владелец и тогда isOwner true
     render() {
 
         return (
@@ -105,6 +104,6 @@ const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => ({
 
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getUserProfile, getStatus, updateStatus, savePhoto}),
+    connect(mapStateToProps, {getUserProfile, getStatus, updateStatus, savePhoto, saveProfile}),
     withRouter,
     withAuthRedirect)(ProfileContainer)
