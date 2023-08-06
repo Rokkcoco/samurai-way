@@ -11,7 +11,7 @@ const initialState = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: [] as Number[] //array of users IDs
+    followingInProgress: [] as number[] //array of users IDs
 }
 type InitialStateType = typeof initialState
 //Будем перезатирать массив в users на тот что пришел
@@ -45,7 +45,7 @@ export type UnfollowACType = ReturnType<typeof unfollowSuccess>
 export type SetUsersACType = ReturnType<typeof setUsers>
 export type SetCurrentPageACType = ReturnType<typeof setCurrentPage>
 export type SetTotalUsersCountACType = ReturnType<typeof setTotalUsersCount>
-export type ToogleIsFetchingACType = ReturnType<typeof toggleIsFetching>
+export type ToggleIsFetchingACType = ReturnType<typeof toggleIsFetching>
 export type toggleIsFollowingProgressType = ReturnType<typeof toggleIsFollowingProgress>
 export type UsersReducersActionType =
     FollowACType
@@ -53,7 +53,7 @@ export type UsersReducersActionType =
     | SetUsersACType
     | SetCurrentPageACType
     | SetTotalUsersCountACType
-    | ToogleIsFetchingACType
+    | ToggleIsFetchingACType
     | toggleIsFollowingProgressType
 export const followSuccess = (userID: number) => ({type: "FOLLOW", userID}) as const
 export const unfollowSuccess = (userID: number) => ({type: "UNFOLLOW", userID}) as const

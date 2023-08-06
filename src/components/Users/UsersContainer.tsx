@@ -1,12 +1,5 @@
 import {connect} from "react-redux";
-import {
-    follow,
-    followSuccess, requestUsers,
-    setCurrentPage,
-    toggleIsFollowingProgress, unfollow,
-    unfollowSuccess,
-    UsersPropsType
-} from "../../redux/usersReducer";
+import {follow, requestUsers, unfollow} from "../../redux/usersReducer";
 import {AppRootStateType} from "../../redux/redux-store";
 import React from "react";
 import Users from "./Users";
@@ -21,35 +14,32 @@ import {
     getTotalUsersCount,
     getUsers
 } from "../../redux/users-selectors";
-
-
+import {UserType} from "../../types/types";
 
 
 type MapStateToPropsType = {
-    users: UsersPropsType[]
+    users: UserType[]
     pageSize: number
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
-    followingInProgress: Number[]
+    followingInProgress: number[]
 }
 
 type MapDispatchToPropsType = {
-
-    setCurrentPage: (pageNumber: number) => void
     requestUsers: (pageNumber: number, pageSize: number) => void
     follow: (userID: number) => void
     unfollow: (userID: number) => void
 }
 
-export type UsersPropType = MapStateToPropsType & MapDispatchToPropsType
-
-export class UsersContainer extends React.Component<UsersPropType> {
+export type PropType = MapStateToPropsType & MapDispatchToPropsType
+export class UsersContainer extends React.Component<PropType> {
     componentDidMount(): void {
         const {currentPage, pageSize} = this.props
         this.props.requestUsers(currentPage, pageSize)
     }
 
+    //в классовой компоненте лучше использовать деструктуризацию пропсов
     onPageChanged = (pageNumber: number) => {
     const {pageSize} = this.props
      this.props.requestUsers(pageNumber, pageSize)
@@ -93,11 +83,7 @@ const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => ({
 
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {
-        followSuccess,
-        unfollowSuccess,
-        setCurrentPage,
-        toggleIsFollowingProgress,
+    connect<MapStateToPropsType,MapDispatchToPropsType, {}, AppRootStateType>(mapStateToProps, {
         requestUsers,
         follow,
         unfollow

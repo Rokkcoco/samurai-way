@@ -69,7 +69,6 @@ export const getCaptchaUrl = (): AppThunk => async (dispatch) => {
     const response = await securityAPI.getCaptchaUrl()
     const captchaURL = response.data.url
     dispatch(getCaptchaUrlSuccess(captchaURL))
-
 }
 
 

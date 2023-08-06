@@ -9,7 +9,7 @@ import appReducer from "./app-reducer";
 
 declare global {
     interface Window {
-        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose
     }
 }
 
@@ -20,14 +20,13 @@ const rootReducer = combineReducers({
     usersPage: usersReducer,
     auth: authReducer,
     app: appReducer
-
 })
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const store = legacy_createStore(rootReducer,composeEnhancers(applyMiddleware(thunk )))
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AnyAction>
 //@ts-ignore
 window.store = store
-export default store;
+export default store
