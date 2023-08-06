@@ -2,13 +2,10 @@ import {PostsDataType} from "./store";
 import {Dispatch} from "redux";
 import {profileAPI, usersAPI} from "../api/api";
 import {AppRootStateType, AppThunk} from "./redux-store";
+import {PhotosType, PostType, ProfileType} from "../types/types";
 
 const ADD_POST = "ADD-POST"
-type PostsType = {
-    id: number
-    message: string
-    likesCount: number
-}
+
 const initialState = {
         posts: [
             {id: 1, message: "Hi, how are you", likesCount: 12},
@@ -16,13 +13,15 @@ const initialState = {
             {id: 3, message: "How old are you", likesCount: 2},
             {id: 4, message: "It's my first post", likesCount: 25},
             {id: 5, message: "Yo", likesCount: 9}
-        ] as PostsType[],
-    profile: null as null|{},
-    status: ""
-    }
-    export type InitialStateType = typeof initialState
+        ] as PostType[],
+    profile: null as null | ProfileType,
+    status: "",
+    newPostText: ""
+}
+
+export type InitialStateType = typeof initialState
 //Можно сделать блочную видимость как в ADD POST {} чтобы переменная оттуда не пересекалась с другой
-const profileReducer = (state:InitialStateType = initialState, action: ProfileReducerActionsType) => {
+const profileReducer = (state:InitialStateType = initialState, action: ProfileReducerActionsType): InitialStateType => {
 
     switch (action.type) {
         case ADD_POST: {
@@ -41,7 +40,7 @@ const profileReducer = (state:InitialStateType = initialState, action: ProfileRe
             return {...state, posts: state.posts.filter(t => t.id !== action.postID)}
         }
         case "SAVE-PHOTO-SUCCESS": {
-            return {...state, profile: {...state.profile, photos: action.photos}}
+            return {...state, profile: {...state.profile, photos: action.photos} as ProfileType}
         }
 
         default:
@@ -59,9 +58,9 @@ type ProfileReducerActionsType = AddPostActionCreatorType  | SetUserProfileType 
 export const addPostActionCreator = (newPostText:string) => ({type: ADD_POST, newPostText}) as const
 
 
-export const setUserProfile = (profile: any) => ({type: "SET-USER-PROFILE", profile}) as const
+export const setUserProfile = (profile: ProfileType) => ({type: "SET-USER-PROFILE", profile}) as const
 export const setStatus = (status: string) => ({type: "SET-STATUS", status}) as const
-export const savePhotoSuccess = (photos:any) => ({type: "SAVE-PHOTO-SUCCESS", photos}) as const
+export const savePhotoSuccess = (photos:PhotosType) => ({type: "SAVE-PHOTO-SUCCESS", photos}) as const
 
 export const getUserProfile = (userID: number) => async (dispatch: Dispatch) => {
     const response = await usersAPI.getProfile(userID)
@@ -85,7 +84,7 @@ export const savePhoto = (file:any) => async (dispatch: Dispatch) => {
         if (response.data.resultCode === 0) dispatch(savePhotoSuccess(response.data.data.photos))
 }
 
-export const saveProfile = (profile:any):AppThunk => async (dispatch, getState: ()=>AppRootStateType) => {
+export const saveProfile = (profile:ProfileType):AppThunk => async (dispatch, getState: ()=>AppRootStateType) => {
     const userID = getState().auth.userId
     const response = await profileAPI.saveProfile(profile)
         if (response.data.resultCode === 0) {

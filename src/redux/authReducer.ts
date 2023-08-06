@@ -4,20 +4,14 @@ import {UseFormSetError} from "react-hook-form";
 import {LoginFormTypes} from "../components/Login/Login";
 
 
-type InitialStateType = {
-    userId: number | null
-    email: string | null
-    login: string | null
-    isAuth: boolean
-    captchaUrl: any
-}
+type InitialStateType = typeof initialState
 //& {isFetching:boolean}
 const initialState = {
-    userId: null,
-    email: null,
-    login: null,
+    userId: null as number | null,
+    email: null as string | null,
+    login: null as string | null,
     isAuth: false,
-    captchaUrl: null
+    captchaUrl: null as null | string
 }
 
 const authReducer = (state: InitialStateType = initialState, action: AuthReducerActionsType): InitialStateType => {
@@ -32,12 +26,11 @@ const authReducer = (state: InitialStateType = initialState, action: AuthReducer
 
 export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => ({
     type: "samurai-way/auth/SET-USER-DATA",
-    payload: {userId, email, login, isAuth}
-}) as const
-export const getCaptchaUrlSuccess = (captchaUrl:any) => ({
+    payload: {userId, email, login, isAuth}}) as const
+
+export const getCaptchaUrlSuccess = (captchaUrl:string | null) => ({
     type: "samurai-way/auth/GET-CAPTCHA-SUCCESS",
-    payload: {captchaUrl}
-}) as const
+    payload: {captchaUrl}}) as const
 
 //нужно добавить именно return в начале функции чтобы вернуть наружу результат резолва промиса, но он у нас undefined т.к. ничем не резолвим
 export const getAuthUserData = (): AppThunk => async (dispatch) => {
@@ -80,8 +73,8 @@ export const getCaptchaUrl = (): AppThunk => async (dispatch) => {
 }
 
 
-type AuthReducerActionsType = SetUserDataACType | GetCaptchaUrlSuccess
-type SetUserDataACType = ReturnType<typeof setAuthUserData>
-type GetCaptchaUrlSuccess = ReturnType<typeof getCaptchaUrlSuccess>
+type AuthReducerActionsType = SetUserDataActionType | GetCaptchaUrlSuccessActionType
+type SetUserDataActionType = ReturnType<typeof setAuthUserData>
+type GetCaptchaUrlSuccessActionType = ReturnType<typeof getCaptchaUrlSuccess>
 
 export default authReducer

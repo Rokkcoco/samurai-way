@@ -2,39 +2,21 @@ import {usersAPI} from "../api/api";
 import {AppThunk} from "./redux-store";
 import {Dispatch} from "redux";
 import {updateObjectInArray} from "../utils/object-helpers";
+import {UserType} from "../types/types";
 
-export type UsersPropsType = {
-    "name": string,
-    "id": number,
-    "photos": {
-        "small": string,
-        "large": string
-    },
-    "status": string,
-    "followed": boolean
-}
 
-export type UsersReducerStateType = {
-    users: UsersPropsType[],
-    pageSize: number,
-    totalUsersCount: number,
-    currentPage: number,
-    isFetching: boolean
-    followingInProgress: Number[]
-}
-
-const initialState: UsersReducerStateType = {
-    users: [],
+const initialState = {
+    users: [] as UserType[],
     pageSize: 10,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: []
+    followingInProgress: [] as Number[] //array of users ID
 }
-
+type InitialStateType = typeof initialState
 //Будем перезатирать массив в users на тот что пришел
 //Можно сделать блочную видимость как в ADD POST {} чтобы переменная оттуда не пересекалась с другой
-const usersReducer = (state: UsersReducerStateType = initialState, action: UsersReducersActionType): UsersReducerStateType => {
+const usersReducer = (state: InitialStateType = initialState, action: UsersReducersActionType): InitialStateType => {
     switch (action.type) {
         case "FOLLOW":
             return {...state, users: updateObjectInArray(state.users, action.userID, "id", {followed:true})}
@@ -75,7 +57,7 @@ export type UsersReducersActionType =
     | toggleIsFollowingProgressType
 export const followSuccess = (userID: number) => ({type: "FOLLOW", userID}) as const
 export const unfollowSuccess = (userID: number) => ({type: "UNFOLLOW", userID}) as const
-export const setUsers = (users: any) => ({type: "SET-USERS", users}) as const
+export const setUsers = (users: UserType[]) => ({type: "SET-USERS", users}) as const
 export const setCurrentPage = (pageNumber: number) => ({type: "SET-CURRENT-PAGE", pageNumber}) as const
 export const setTotalUsersCount = (totalUsersCount: number) => ({
     type: "SET-TOTAL-USERS-COUNT",

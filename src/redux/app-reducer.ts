@@ -27,7 +27,7 @@ export const initializeApp = ():AppThunk => (dispatch) => {
     Promise.all([promise]).then(() => dispatch(initializedSuccess()))
 }
 
-type AppReducerActionsType = initializedSuccessType
-type initializedSuccessType = ReturnType<typeof initializedSuccess>
+type AppReducerActionsType = initializedSuccessActionType
+type initializedSuccessActionType = ReturnType<typeof initializedSuccess>
 
 export default appReducer

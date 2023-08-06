@@ -1,8 +1,9 @@
 
 
 const initialState = {}
-const sidebarReducer = (state = initialState, action: any) => {
+type InitialStateType = typeof initialState
+const sidebarReducer = (state: InitialStateType = initialState, action: SidebarReducerActionsType): InitialStateType => {
     return state
 }
-
+type SidebarReducerActionsType = {}
 export default sidebarReducer
