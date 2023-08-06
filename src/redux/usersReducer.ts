@@ -11,7 +11,7 @@ const initialState = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: [] as Number[] //array of users ID
+    followingInProgress: [] as Number[] //array of users IDs
 }
 type InitialStateType = typeof initialState
 //Будем перезатирать массив в users на тот что пришел
