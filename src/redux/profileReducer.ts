@@ -4,7 +4,6 @@ import {profileAPI, usersAPI} from "../api/api";
 import {AppRootStateType, AppThunk} from "./redux-store";
 import {PhotosType, PostType, ProfileType} from "../types/types";
 
-const ADD_POST = "ADD-POST"
 
 const initialState = {
         posts: [
@@ -15,33 +14,29 @@ const initialState = {
             {id: 5, message: "Yo", likesCount: 9}
         ] as PostType[],
     profile: null as null | ProfileType,
-    status: "",
-    newPostText: ""
+    status: ""
 }
 
 export type InitialStateType = typeof initialState
 //Можно сделать блочную видимость как в ADD POST {} чтобы переменная оттуда не пересекалась с другой
-const profileReducer = (state:InitialStateType = initialState, action: ProfileReducerActionsType): InitialStateType => {
+const profileReducer = (state:InitialStateType = initialState, action: ActionsType): InitialStateType => {
 
     switch (action.type) {
-        case ADD_POST: {
+        case "samurai-way/profilePage/ADD-POST":
             const newPost: PostsDataType = {
                 id: Date.now(),
                 message: action.newPostText,
                 likesCount: 0
             }
-            return {...state, newPostText: "", posts: [...state.posts, newPost]}
-        }
-        case "SET-USER-PROFILE":
+            return {...state, posts: [...state.posts, newPost]}
+        case "samurai-way/profilePage/SET-USER-PROFILE":
             return {...state, profile: action.profile }
-        case "SET-STATUS":
+        case "samurai-way/profilePage/SET-STATUS":
             return {...state, status: action.status}
-        case "DELETE-POST": {
+        case "samurai-way/profilePage/DELETE-POST":
             return {...state, posts: state.posts.filter(t => t.id !== action.postID)}
-        }
-        case "SAVE-PHOTO-SUCCESS": {
+        case "samurai-way/profilePage/SAVE-PHOTO-SUCCESS":
             return {...state, profile: {...state.profile, photos: action.photos} as ProfileType}
-        }
 
         default:
             return state
@@ -54,13 +49,13 @@ type SetStatusType = ReturnType<typeof setStatus>
 type DeletePostType = ReturnType<typeof deletePost>
 type SavePhotoSuccessType = ReturnType<typeof savePhotoSuccess>
 
-type ProfileReducerActionsType = AddPostActionCreatorType  | SetUserProfileType | SetStatusType | DeletePostType | SavePhotoSuccessType
-export const addPostActionCreator = (newPostText:string) => ({type: ADD_POST, newPostText}) as const
+type ActionsType = AddPostActionCreatorType  | SetUserProfileType | SetStatusType | DeletePostType | SavePhotoSuccessType
+export const addPostActionCreator = (newPostText:string) => ({type: "samurai-way/profilePage/ADD-POST", newPostText}) as const
 
-
-export const setUserProfile = (profile: ProfileType) => ({type: "SET-USER-PROFILE", profile}) as const
-export const setStatus = (status: string) => ({type: "SET-STATUS", status}) as const
-export const savePhotoSuccess = (photos:PhotosType) => ({type: "SAVE-PHOTO-SUCCESS", photos}) as const
+export const deletePost = (postID: number) => ({type: "samurai-way/profilePage/DELETE-POST", postID} as const)
+export const setUserProfile = (profile: ProfileType) => ({type: "samurai-way/profilePage/SET-USER-PROFILE", profile}) as const
+export const setStatus = (status: string) => ({type: "samurai-way/profilePage/SET-STATUS", status}) as const
+export const savePhotoSuccess = (photos:PhotosType) => ({type: "samurai-way/profilePage/SAVE-PHOTO-SUCCESS", photos}) as const
 
 export const getUserProfile = (userID: number) => async (dispatch: Dispatch) => {
     const response = await usersAPI.getProfile(userID)
@@ -96,6 +91,6 @@ export const saveProfile = (profile:ProfileType):AppThunk => async (dispatch, ge
 
 }
 
-export const deletePost = (postID: number) => ({type: "DELETE-POST", postID} as const)
+
 
 export default profileReducer

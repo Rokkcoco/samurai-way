@@ -1,4 +1,5 @@
 import axios from "axios";
+import {ProfileType} from "../types/types";
 
 
 const instance = axios.create({
@@ -8,6 +9,26 @@ const instance = axios.create({
         "API-KEY": "654ee2dd-0295-4c54-aa15-a75a7c846bf1"
     }
 })
+
+export enum ResultCodes {
+    Success = 0,
+    Error = 1
+}
+
+export enum ResultCodeForCaptcha {
+    CaptchaIsRequired = 10
+}
+
+type MeResponseType = {
+    data: { id: number, email:string, login:string }
+    resultCode: ResultCodes
+    messages: string[]
+}
+type LoginResponseType = {
+    data: { userId: number }
+    resultCode: ResultCodes | ResultCodeForCaptcha
+    messages: string[]
+}
 
 export const usersAPI = {
     getUsers(currentPage: number= 1, pageSize: number = 10) {
@@ -42,7 +63,7 @@ export const profileAPI = {
         saveData.append("avatar", photoFile)
         return instance.put(`profile/photo`, saveData, {headers:{"Content-type":"multipart/form-data"}})
     },
-    saveProfile(profile:any) {
+    saveProfile(profile:ProfileType) {
         return instance.put(`profile`, profile)
     }
 }
@@ -50,10 +71,11 @@ export const profileAPI = {
 
 export const authAPI = {
     me() {
-       return instance.get(`auth/me`)
+       return instance.get<MeResponseType>(`auth/me`)
+           .then(response => response.data)
     },
     login(email: string, password: string, rememberMe: boolean = false, captcha:string|null = null) {
-        return instance.post(`auth/login`, {email, password, rememberMe, captcha})
+        return instance.post<LoginResponseType>(`auth/login`, {email, password, rememberMe, captcha}).then(res => res.data)
     },
     logout() {
         return instance.delete(`auth/login`)

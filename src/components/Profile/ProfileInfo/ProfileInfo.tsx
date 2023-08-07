@@ -30,7 +30,7 @@ const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, savePro
             <div className={s.descriptionBlock}>
                 <img alt="avatar" src={profile.photos.large || userPhoto} className={s.mainPhoto} />
                 {isOwner && <input type={'file'} onChange={onMainPhotoSelected}/>}
-                {editMode ? <ProfileDataForm disableEditMode={disableEditMode} saveProfile={saveProfile} profile={profile}/> : <ProfileData profile={profile} isOwner={isOwner} goToEditMode={activateEditMode}/>}
+                {editMode ? <ProfileDataForm  goToEditMode={activateEditMode} disableEditMode={disableEditMode} saveProfile={saveProfile} profile={profile}/> : <ProfileData profile={profile} isOwner={isOwner} />}
                 <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
             </div>
         </div>

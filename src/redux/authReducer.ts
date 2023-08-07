@@ -1,4 +1,4 @@
-import {authAPI, securityAPI} from "../api/api";
+import {authAPI, ResultCodeForCaptcha, ResultCodes, securityAPI} from "../api/api";
 import {AppThunk} from "./redux-store";
 import {UseFormSetError} from "react-hook-form";
 import {LoginFormTypes} from "../components/Login/Login";
@@ -14,7 +14,7 @@ const initialState = {
     captchaUrl: null as null | string
 }
 
-const authReducer = (state: InitialStateType = initialState, action: AuthReducerActionsType): InitialStateType => {
+const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case "samurai-way/auth/SET-USER-DATA":
         case "samurai-way/auth/GET-CAPTCHA-SUCCESS":
@@ -34,34 +34,34 @@ export const getCaptchaUrlSuccess = (captchaUrl:string | null) => ({
 
 //нужно добавить именно return в начале функции чтобы вернуть наружу результат резолва промиса, но он у нас undefined т.к. ничем не резолвим
 export const getAuthUserData = (): AppThunk => async (dispatch) => {
-    const response = await authAPI.me()
-    if (response.data.resultCode === 0) {
-        const {login, id, email} = response.data.data
+    const data = await authAPI.me()
+    if (data.resultCode === ResultCodes.Success) {
+        const {login, id, email} = data.data
         dispatch(setAuthUserData(id, email, login, true))
     }
 }
 
 //можно было добавить return вначале чтобы функция вернула результат промиса наружу
 //так же добавить ошибку или return со значением в самом промисе
-export const login = (email: string, password: string, rememberMe: boolean, setError: UseFormSetError<LoginFormTypes>, captcha: string): AppThunk => {
+export const login = (email: string, password: string, rememberMe: boolean, setError: UseFormSetError<LoginFormTypes>, captcha: string| null): AppThunk => {
    return async (dispatch) => {
-        const response = await authAPI.login(email, password, rememberMe, captcha)
-        console.log(response)
-        if (response.data.resultCode === 0) {
+        const data = await authAPI.login(email, password, rememberMe, captcha)
+        console.log(data)
+        if (data.resultCode === ResultCodes.Success) {
             dispatch(getAuthUserData())
         }
         else {
-            if (response.data.resultCode === 10) {
+            if (data.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {
                 dispatch(getCaptchaUrl())
             }
-            const message = response.data.messages.length > 0 ? response.data.messages[0] : "Some Error"
+            const message = data.messages.length > 0 ? data.messages[0] : "Some Error"
             setError("email", {message})
         }
     }
 }
 export const logout = (): AppThunk => async (dispatch) => {
     const response = await authAPI.logout()
-    if (response.data.resultCode === 0) {
+    if (response.data.resultCode === ResultCodes.Success) {
         dispatch(setAuthUserData(null, null, null, false))
     }
 }
@@ -72,7 +72,7 @@ export const getCaptchaUrl = (): AppThunk => async (dispatch) => {
 }
 
 
-type AuthReducerActionsType = SetUserDataActionType | GetCaptchaUrlSuccessActionType
+type ActionsType = SetUserDataActionType | GetCaptchaUrlSuccessActionType
 type SetUserDataActionType = ReturnType<typeof setAuthUserData>
 type GetCaptchaUrlSuccessActionType = ReturnType<typeof getCaptchaUrlSuccess>
 

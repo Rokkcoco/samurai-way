@@ -27,6 +27,10 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const store = legacy_createStore(rootReducer,composeEnhancers(applyMiddleware(thunk )))
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AnyAction>
+
+type PropertiesTypes<T> = T extends {[key:string]: infer U} ? U : never
+export type InferActionsType<T extends {[key:string]: (...args:any[]) => any}> = ReturnType<PropertiesTypes<T>>
+ 
 //@ts-ignore
 window.store = store
 export default store

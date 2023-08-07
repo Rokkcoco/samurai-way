@@ -7,30 +7,34 @@ import {getCaptchaUrl, login} from "../../redux/authReducer";
 import {Navigate} from "react-router-dom";
 import {AppRootStateType} from "../../redux/redux-store";
 
-type MapStateToPropsType = {
-    isAuth: boolean
-    captchaUrl: any
-}
-
 export type LoginFormTypes = {
     email: string
     password: string
     rememberMe: boolean
+    captcha: string | null
 }
-type LoginPropsType = MapStateToPropsType & {
-    login: (email: string, password: string, rememberMe: boolean,setError: UseFormSetError<LoginFormTypes>, captcha?:string) => void
-    getCaptchaUrl: (captchaUrl: any) => void
+
+type MapStateToPropsType = {
+    isAuth: boolean
+    captchaUrl: string | null
 }
-const Login = ({login, isAuth, captchaUrl}: LoginPropsType) => {
+type MapDispatchToPropsType = {
+    login: (email: string, password: string, rememberMe: boolean,setError: UseFormSetError<LoginFormTypes>, captcha:string | null ) => void
+    getCaptchaUrl: (captchaUrl: string) => void
+}
+
+
+const Login = ({login, isAuth, captchaUrl}: MapStateToPropsType & MapDispatchToPropsType) => {
 
     const loginSchema = yup
         .object({
             email: yup.string().required("This Field cant be empty").max(30, 'Maximum 30 symbols'),
             password: yup.string().required("This Field cant be empty").max(30, 'Maximum 30 symbols').min(6, "Minimum 6 character"),
             rememberMe: yup.boolean().optional().default(false),
-            captcha: yup.string().optional()
+            captcha: yup.string().optional().nullable().default(null)
         })
         .required()
+
     const {
         register,
         handleSubmit,
@@ -38,12 +42,11 @@ const Login = ({login, isAuth, captchaUrl}: LoginPropsType) => {
         setError
     }
         = useForm({resolver: yupResolver(loginSchema)})
-    const onSubmit = (data: { email: string, password: string, rememberMe: boolean, captcha: string | undefined}) => {
+    const onSubmit = ( data: LoginFormTypes) => {
         login(data.email, data.password, data.rememberMe, setError, data.captcha)
 
     }
-//   setError('email', {type: "serverSideError", message:"bad"})
-//             setError("password", {type: "basd"})
+
     if (isAuth) {
         return <Navigate to={'/profile'}/>
     }
@@ -76,4 +79,4 @@ const mapPropsToState = (state: AppRootStateType): MapStateToPropsType => ({
     captchaUrl: state.auth.captchaUrl
 })
 
-export default connect(mapPropsToState, {login, getCaptchaUrl})(Login)
+export default connect<MapStateToPropsType,MapDispatchToPropsType, {}, AppRootStateType>(mapPropsToState, {login, getCaptchaUrl})(Login)
