@@ -1,11 +1,18 @@
-import {sendMessage} from "../../redux/dialogsReducer";
+import {actions, InitialStateType} from "../../redux/dialogsReducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
-import {compose, Dispatch} from "redux";
+import {compose} from "redux";
 import {AppRootStateType} from "../../redux/redux-store";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import React from "react";
 
+type MapStateToPropsType = {
+    dialogsPage: InitialStateType
+}
+
+type MapDispatchToPropsType = {
+    sendMessage: (newMessageBody: string) => void
+}
 
 const mapStateToProps = (state: AppRootStateType) => {
     return {
@@ -13,15 +20,8 @@ const mapStateToProps = (state: AppRootStateType) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-        sendMessage: (newMessageBody: string)=> {
-            dispatch(sendMessage(newMessageBody))
-        }
-    }
-}
-
-
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, mapDispatchToProps),
+    connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppRootStateType>(mapStateToProps, {
+        sendMessage: actions.sendMessage
+    }),
     withAuthRedirect)(Dialogs);

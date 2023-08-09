@@ -1,41 +1,49 @@
 import React from "react";
 import s from "./ProfileInfo.module.css";
 import {useForm} from "react-hook-form";
-import {ProfileType} from "../../../types/types";
+import {ContactsType, ProfileType} from "../../../types/types";
 
 type PropsType = {
     profile: ProfileType
-    goToEditMode: any
-    disableEditMode: any
-    saveProfile: any
+    disableEditMode: () => void
+    saveProfile: (profile: ProfileType) => Promise<void>
 }
-const ProfileDataForm = ({profile, goToEditMode, disableEditMode, saveProfile}: PropsType) => {
+
+const ProfileDataForm = ({profile, disableEditMode, saveProfile}: PropsType) => {
 
     const {
         register,
         handleSubmit,
         formState:{ errors},
-        setError } = useForm({defaultValues: profile})
+        setError } = useForm<ProfileType>({defaultValues: profile})
 
     const onSubmit = async (data: ProfileType) => {
         try {
            await saveProfile(data)
             disableEditMode()
-        } catch(error:any) {
-            console.log(error)
-               let errorName =  error.slice(
-                   error.indexOf(">") + 1,
-                   error.indexOf(")")
+        } catch(errors:any) {
+            errors.forEach((error:string) => {
+                let errorName =  error.slice(
+                    error.indexOf(">") + 1,
+                    error.indexOf(")")
                 )
-                .toLocaleLowerCase();
-            console.log(errorName)
-            setError(errorName, error)
+                    .toLocaleLowerCase();
+                if (/\babout\b/gi.test(errorName)) {
+                    setError("aboutMe", {message: error})
+                }
+                if (/\bjob\b/gi.test(errorName)) {
+                    setError("lookingForAJobDescription", {message:error})
+                }
+                if (errorName === "mainlink") {
+                    errorName = "mainLink"
+                }
+                setError("contacts." + errorName as keyof ProfileType, {message: error})
+            })
         }
-
     }
-//
+
     return <form onSubmit={handleSubmit(onSubmit)}>
-        <div><button onClick={goToEditMode}>save</button></div>
+        <div><button>save</button></div>
         <div>
             <b>Full name</b>:
             <div>
@@ -60,16 +68,12 @@ const ProfileDataForm = ({profile, goToEditMode, disableEditMode, saveProfile}: 
         <div>
             <b>Contacts</b>: {Object.keys(profile.contacts).map(key => {
             return <div key={key} className={s.contact}>
-                <b>{key}:<input  placeholder={key} type="text" {...register(`contacts.${key}` as any)}/></b>
-                {/*{errors.contacts[key] && <p>{errors.contacts[key].message}</p>}*/}
+                <b>{key}:<input  placeholder={key} type="text" {...register(`contacts.${key}`as keyof ProfileType)}/></b>
+                { errors.contacts ? errors.contacts[key as keyof ContactsType] && <p>{errors.contacts[key as keyof ContactsType]?.message}</p> : null}
             </div>
         })}
         </div>
     </form>
 }
-//value={profile.aboutMe}
-//value={profile.lookingForAJobDescription}
-//value={profile.lookingForAJob ? "yes" : "no"}
-//value={profile.fullName}
-//value={profile.contacts[key]}
+
 export default ProfileDataForm

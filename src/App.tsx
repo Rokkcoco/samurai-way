@@ -16,7 +16,6 @@ import store, {AppRootStateType} from "./redux/redux-store";
 import {Preloader} from "./components/common/Preloader/Preloader";
 
 
-
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"))
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"))
 
@@ -26,12 +25,11 @@ type MapDispatchToPropsType = {
 type MapStateToPropsType = {
     initialized: boolean
 }
-type AppPropsType = MapDispatchToPropsType & MapStateToPropsType
+type PropsType = MapDispatchToPropsType & MapStateToPropsType
 
-class App extends React.Component<AppPropsType> {
-    catchAllUnhandledErrors = (promiseRejectionEvent: any) => {
+class App extends React.Component<PropsType> {
+    catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
         alert("Some error occured")
-        //console.error(promiseRejectionEvent)
     }
 
     componentDidMount() {
@@ -61,6 +59,7 @@ class App extends React.Component<AppPropsType> {
                             <Route path='settings' element={<Settings/>}/>
                             <Route path='login' element={<LoginPage/>}/>
                             <Route path='/' element={<Navigate to="profile"/>}/>
+                            <Route path='*' element={<div>404 NOT FOUND</div>}/>
                         </Routes>
                     </Suspense>
                 </div>
@@ -75,7 +74,7 @@ const mapStateToProps = (state: AppRootStateType) => ({
 })
 
 const AppContainer = compose<React.ComponentType>(
-    connect(mapStateToProps, {initializeApp}),
+    connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppRootStateType>(mapStateToProps, {initializeApp}),
     withRouter)(App);
 const SamuraiJSApp = () => {
     return <BrowserRouter>

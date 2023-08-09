@@ -1,26 +1,22 @@
-import React, {FC} from 'react';
+import React from 'react';
 import s from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {MessagesPageType} from "../../redux/store";
-import {FieldValues, useForm} from "react-hook-form";
-import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
+import {InitialStateType} from "../../redux/dialogsReducer";
+import {AddMessageForm} from "./AddMessageForm/AddMessageForm";
 
 
-type DialogsType = {
+type PropsType = {
     sendMessage: (newMessageBody: string) => void
-    dialogsPage: MessagesPageType
-    isAuth: boolean
+    dialogsPage: InitialStateType
 }
 
-const Dialogs: FC<DialogsType> = ({sendMessage, dialogsPage, isAuth}): JSX.Element => {
+const Dialogs = ({sendMessage, dialogsPage}: PropsType): JSX.Element => {
 
     const dialogsElements: JSX.Element[] = dialogsPage.dialogs.map((t) => <DialogItem key={t.id} name={t.name}
                                                                                       id={t.id}/>)
 
-    const messagesElements: JSX.Element[] = dialogsPage.messages.map((t) => <Message key={t.id} message={t.message}
-                                                                                     id={t.id}/>)
+    const messagesElements: JSX.Element[] = dialogsPage.messages.map((t) => <Message key={t.id} message={t.message}/>)
 
 
     return (
@@ -35,42 +31,6 @@ const Dialogs: FC<DialogsType> = ({sendMessage, dialogsPage, isAuth}): JSX.Eleme
         </div>
     )
 }
-type AddMessageFormPropsType = {
-    sendMessage: (newMessageBody: string) => void
-}
-const AddMessageForm = (props: AddMessageFormPropsType) => {
 
-    const DialogsSchema = yup
-        .object({
-            newMessageBody: yup.string().required("This Field cant be empty").max(30, 'Maximum 30 symbols')
-        })
-        .required()
-
-    const {
-        register,
-        handleSubmit,
-        formState: {errors, isDirty},
-        reset
-    }
-        = useForm({resolver: yupResolver(DialogsSchema)})
-
-    const onSubmit = (data: FieldValues) => {
-        props.sendMessage(data.newMessageBody)
-        reset()
-    }
-
-    return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div><textarea
-                {...register("newMessageBody")}
-                placeholder="Enter your message"></textarea>
-                <p>{errors.newMessageBody?.message}</p>
-            </div>
-            <div>
-                <button disabled={!isDirty}>Send</button>
-            </div>
-        </form>
-    )
-}
 
 export default Dialogs;

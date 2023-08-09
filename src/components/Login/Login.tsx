@@ -13,7 +13,6 @@ export type LoginFormTypes = {
     rememberMe: boolean
     captcha: string | null
 }
-
 type MapStateToPropsType = {
     isAuth: boolean
     captchaUrl: string | null
@@ -22,9 +21,10 @@ type MapDispatchToPropsType = {
     login: (email: string, password: string, rememberMe: boolean,setError: UseFormSetError<LoginFormTypes>, captcha:string | null ) => void
     getCaptchaUrl: (captchaUrl: string) => void
 }
+type PropsType = MapStateToPropsType & MapDispatchToPropsType
 
 
-const Login = ({login, isAuth, captchaUrl}: MapStateToPropsType & MapDispatchToPropsType) => {
+const Login = ({login, isAuth, captchaUrl}: PropsType) => {
 
     const loginSchema = yup
         .object({

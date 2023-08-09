@@ -7,6 +7,7 @@ import {NavigateFunction, Params, useLocation, useNavigate, useParams} from "rea
 import {Location} from 'history';
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {ProfileType} from "../../types/types";
 
 
 type RouterPropsType = {
@@ -18,7 +19,7 @@ type RouterPropsType = {
 };
 
 type MapStateToPropsType = {
-    profile: any
+    profile: ProfileType | null
     status: string
     authorizedUserID: number | null
     isAuth: boolean
@@ -28,13 +29,13 @@ type MapDispatchToPropsType = {
     getUserProfile: (userID: number) => void
     getStatus: (userID: number) => void
     updateStatus: (status: string) => void
-    savePhoto: () => void
-    saveProfile: (profile: any) => void
+    savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileType) => Promise<void>
 }
 
-type ProfileContainerPropsType = MapStateToPropsType & MapDispatchToPropsType & RouterPropsType
+type PropsType = MapStateToPropsType & MapDispatchToPropsType & RouterPropsType
 
-class ProfileContainer extends React.Component<ProfileContainerPropsType> {
+class ProfileContainer extends React.Component<PropsType> {
 
     refreshProfile() {
         console.log(this.props.router)
@@ -46,9 +47,12 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         // }
         //вроде все работает, проверить не показывает ли профиль после logout
 
-        this.props.getUserProfile(Number(userID))
-
-        this.props.getStatus(Number(userID))
+        if (!userID) {
+            console.error("ID should exist in URI params or in state")
+        } else {
+            this.props.getUserProfile(Number(userID))
+            this.props.getStatus(Number(userID))
+        }
     }
 
     componentDidMount() {
@@ -56,7 +60,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     }
 
 
-    componentDidUpdate(prevProps: ProfileContainerPropsType) {
+    componentDidUpdate(prevProps: PropsType) {
         if (prevProps.router.params.userID !== this.props.router.params.userID) this.refreshProfile()
 
     }

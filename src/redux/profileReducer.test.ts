@@ -1,4 +1,4 @@
-import profileReducer, {addPostActionCreator, deletePost, InitialStateType} from "./profileReducer";
+import profileReducer, {actions, InitialStateType} from "./profileReducer";
 
 let state:InitialStateType
 
@@ -17,7 +17,7 @@ beforeEach(() => {
 })
 it("length of posts should be incremented", () => {
 
-    const action = addPostActionCreator("hey-ho")
+    const action = actions.addPost("hey-ho")
     const newState = profileReducer(state, action)
     expect(newState.posts.length).toBe(6)
 
@@ -25,7 +25,7 @@ it("length of posts should be incremented", () => {
 
 it("message of new post should be correct", () => {
 
-    const action = addPostActionCreator("hey-ho")
+    const action = actions.addPost("hey-ho")
     const newState = profileReducer(state, action)
     expect(newState.posts[5].message).toBe("hey-ho")
 
@@ -33,7 +33,7 @@ it("message of new post should be correct", () => {
 
 it("after deleting length of messages should be decrement", () => {
 
-    const action = deletePost(4)
+    const action = actions.deletePost(4)
     const newState = profileReducer(state, action)
     expect(newState.posts.length).toBe(4)
     expect(newState.posts[3].id).toBe(5)
@@ -41,7 +41,7 @@ it("after deleting length of messages should be decrement", () => {
 })
 it("after deleting length shouldn't be decrement if ID is not correct", () => {
 
-    const action = deletePost(1000)
+    const action = actions.deletePost(1000)
     const newState = profileReducer(state, action)
     expect(newState.posts.length).toBe(5)
     expect(newState.posts[4].id).toBe(5)

@@ -1,10 +1,18 @@
 import React from "react";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import {ProfileType} from "../../types/types";
 
+type PropsType = {
+    savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileType) => Promise<void>
+    isOwner: boolean
+    status: string
+    profile: ProfileType | null
+    updateStatus: (status: string) => void
+}
 
-
-const Profile = (props:any): JSX.Element => {
+const Profile = (props:PropsType): JSX.Element => {
     console.log(props)
     return (
         <div>

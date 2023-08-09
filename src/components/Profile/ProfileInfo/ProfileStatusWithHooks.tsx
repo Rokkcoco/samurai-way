@@ -1,31 +1,35 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 
-const ProfileStatusWithHooks = (props:any) =>  {
+type PropsType = {
+    status: string
+    updateStatus: (status:string)=>void
+}
+const ProfileStatusWithHooks = ({status, updateStatus}:PropsType) =>  {
 
     const [editMode, setEditMode] = useState(false)
-    const [status, setStatus] = useState(props.status)
+    const [newStatus, setNewStatus] = useState(status)
 
     useEffect(() => {
-        setStatus(props.status)
-    },[props.status])
+        setNewStatus(status)
+    },[status])
     const activateEditMode = () => {
         setEditMode(true)
     }
     const disableEditMode = () => {
         setEditMode(false)
-        props.updateStatus(status)
+        updateStatus(newStatus)
     }
     const statusOnChange = (e:ChangeEvent<HTMLInputElement>) => {
-        setStatus(e.currentTarget.value)
+        setNewStatus(e.currentTarget.value)
     }
         return (
             <div>
                 {!editMode &&
                     <div>
-                        <b>Status</b>:<span onDoubleClick={activateEditMode}>{props.status || "------"}</span>
+                        <b>Status</b>:<span onDoubleClick={activateEditMode}>{status || "------"}</span>
                     </div>}
                 {editMode && <div>
-                    <input autoFocus onChange={statusOnChange} onBlur={disableEditMode} value={status}/>
+                    <input autoFocus onChange={statusOnChange} onBlur={disableEditMode} value={newStatus}/>
                 </div>}
             </div>
         )

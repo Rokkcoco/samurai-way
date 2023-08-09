@@ -7,9 +7,7 @@ import SamuraiJSApp from './App';
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 )
-root.render(
-    <SamuraiJSApp/>
-    )
+root.render(<SamuraiJSApp/>)
 
 
 
