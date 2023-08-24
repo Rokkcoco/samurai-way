@@ -44,8 +44,7 @@ export const getAuthUserData = ():ThunkType => async (dispatch) => {
 
 //можно было добавить return вначале чтобы функция вернула результат промиса наружу
 //так же добавить ошибку или return со значением в самом промисе
-export const login = async(email: string, password: string, rememberMe: boolean, setError: UseFormSetError<LoginFormTypes>, captcha: string| null): Promise<ThunkType> => {
-   return async (dispatch) => {
+export const login = (email: string, password: string, rememberMe: boolean, setError: UseFormSetError<LoginFormTypes>, captcha: string| null): ThunkType => async (dispatch) => {
         const data = await authAPI.login(email, password, rememberMe, captcha)
         if (data.resultCode === ResultCodes.Success) {
             await dispatch(getAuthUserData())
@@ -57,7 +56,7 @@ export const login = async(email: string, password: string, rememberMe: boolean,
             const message = data.messages.length > 0 ? data.messages[0] : "Some Error"
             setError("email", {message})
         }
-    }
+
 }
 export const logout = (): ThunkType => async (dispatch) => {
     const response = await authAPI.logout()

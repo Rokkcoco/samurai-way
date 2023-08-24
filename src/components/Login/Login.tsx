@@ -43,15 +43,13 @@ const Login = ({login, isAuth, captchaUrl}: PropsType) => {
     }
         = useForm({resolver: yupResolver(loginSchema)})
     const onSubmit = ( data: LoginFormTypes) => {
-        login(data.email, data.password, data.rememberMe, setError, data.captcha)
-
+       login(data.email, data.password, data.rememberMe, setError, data.captcha)
     }
 
     if (isAuth) {
         return <Navigate to={'/profile'}/>
     }
 
-    console.log(errors)
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <h1>LOGIN</h1>
