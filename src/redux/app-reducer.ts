@@ -1,5 +1,5 @@
 import {AppThunkType, InferActionsType} from "./redux-store";
-import {getAuthUserData} from "./authReducer";
+import {getAuthUserData} from "./auth-reducer";
 
 
 const initialState = {

@@ -1,4 +1,4 @@
-import {actions, InitialStateType} from "../../redux/dialogsReducer";
+import {actions, InitialStateType} from "../../redux/dialogs-reducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {compose} from "redux";

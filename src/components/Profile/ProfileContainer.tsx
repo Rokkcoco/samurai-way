@@ -1,7 +1,7 @@
 import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {getStatus, getUserProfile, savePhoto, saveProfile, updateStatus} from "../../redux/profileReducer";
+import {getStatus, getUserProfile, savePhoto, saveProfile, updateStatus} from "../../redux/profile-reducer";
 import {AppRootStateType} from "../../redux/redux-store";
 import {NavigateFunction, Params, useLocation, useNavigate, useParams} from "react-router-dom";
 import {Location} from 'history';

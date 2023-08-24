@@ -3,7 +3,7 @@ import {useForm, UseFormSetError} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {connect} from "react-redux";
-import {getCaptchaUrl, login} from "../../redux/authReducer";
+import {getCaptchaUrl, login} from "../../redux/auth-reducer";
 import {Navigate} from "react-router-dom";
 import {AppRootStateType} from "../../redux/redux-store";
 

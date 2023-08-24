@@ -26,3 +26,4 @@ export const profileAPI = {
         return instance.put<BaseResponseType<ProfileType>>(`profile`, profile).then(res => res.data)
     }
 }
+
