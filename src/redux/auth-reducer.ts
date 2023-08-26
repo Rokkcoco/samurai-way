@@ -1,7 +1,7 @@
 import {ResultCodeForCaptcha, ResultCodes} from "../api/api";
 import {AppThunkType, InferActionsType} from "./redux-store";
 import {UseFormSetError} from "react-hook-form";
-import {LoginFormTypes} from "../components/Login/Login";
+import {LoginFormTypes} from "../components/Login/LoginPage";
 import {authAPI} from "../api/auth-api";
 import {securityAPI} from "../api/security-api";
 

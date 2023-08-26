@@ -1,11 +1,11 @@
 import React from 'react';
-import {useForm, UseFormSetError} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {connect} from "react-redux";
-import {getCaptchaUrl, login} from "../../redux/auth-reducer";
+import {login} from "../../redux/auth-reducer";
 import {Navigate} from "react-router-dom";
-import {AppRootStateType} from "../../redux/redux-store";
+import {useAppDispatch, useAppSelector} from "../../redux/redux-store";
+import {selectCaptchaUrl, selectIsAuth} from "../../redux/login-selectors";
 
 export type LoginFormTypes = {
     email: string
@@ -13,18 +13,12 @@ export type LoginFormTypes = {
     rememberMe: boolean
     captcha: string | null
 }
-type MapStateToPropsType = {
-    isAuth: boolean
-    captchaUrl: string | null
-}
-type MapDispatchToPropsType = {
-    login: (email: string, password: string, rememberMe: boolean,setError: UseFormSetError<LoginFormTypes>, captcha:string | null ) => void
-    getCaptchaUrl: (captchaUrl: string) => void
-}
-type PropsType = MapStateToPropsType & MapDispatchToPropsType
 
+export const LoginPage = () => {
 
-const Login = ({login, isAuth, captchaUrl}: PropsType) => {
+    const captchaUrl = useAppSelector(selectCaptchaUrl)
+    const isAuth = useAppSelector(selectIsAuth)
+    const dispatch = useAppDispatch()
 
     const loginSchema = yup
         .object({
@@ -42,8 +36,8 @@ const Login = ({login, isAuth, captchaUrl}: PropsType) => {
         setError
     }
         = useForm({resolver: yupResolver(loginSchema)})
-    const onSubmit = ( data: LoginFormTypes) => {
-       login(data.email, data.password, data.rememberMe, setError, data.captcha)
+    const onSubmit = (data: LoginFormTypes) => {
+        dispatch(login(data.email, data.password, data.rememberMe, setError, data.captcha))
     }
 
     if (isAuth) {
@@ -72,9 +66,3 @@ const Login = ({login, isAuth, captchaUrl}: PropsType) => {
         </form>
     )
 };
-const mapPropsToState = (state: AppRootStateType): MapStateToPropsType => ({
-    isAuth: state.auth.isAuth,
-    captchaUrl: state.auth.captchaUrl
-})
-
-export default connect<MapStateToPropsType,MapDispatchToPropsType, {}, AppRootStateType>(mapPropsToState, {login, getCaptchaUrl})(Login)
