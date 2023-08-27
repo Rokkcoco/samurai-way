@@ -17,8 +17,10 @@ import {Preloader} from "./components/common/Preloader/Preloader";
 import {LoginPage} from "./components/Login/LoginPage";
 
 
+
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"))
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"))
+const ChatPage = React.lazy(() => import("./pages/Chat/ChatPage"))
 
 type MapDispatchToPropsType = {
     initializeApp: () => void
@@ -59,6 +61,7 @@ class App extends React.Component<PropsType> {
                             <Route path='music' element={<Music/>}/>
                             <Route path='settings' element={<Settings/>}/>
                             <Route path='login' element={<LoginPage/>}/>
+                            <Route path='chat' element={<ChatPage/>}/>
                             <Route path='/' element={<Navigate to="profile"/>}/>
                             <Route path='*' element={<div>404 NOT FOUND</div>}/>
                         </Routes>
