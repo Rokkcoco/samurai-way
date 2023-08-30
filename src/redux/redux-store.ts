@@ -7,6 +7,7 @@ import authReducer from "./auth-reducer";
 import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import appReducer from "./app-reducer";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
+import chatReducer from "./chat-reducer";
 
 
 declare global {
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
     sidebar: sidebarReducer,
     usersPage: usersReducer,
     auth: authReducer,
-    app: appReducer
+    app: appReducer,
+    chat:chatReducer
 })
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
